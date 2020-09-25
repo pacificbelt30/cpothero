@@ -22,6 +22,9 @@ typedef struct _BitBoard{
 	TEBAN teban;
 }BitBoard;
 
+class Ohtero
+{
+  public:
 uint64_t inputPos();
 int bitCount(uint64_t board);//1の立っている数を数える,分割統治法
 void init(BitBoard *board);//初期盤面
@@ -38,5 +41,5 @@ uint64_t put(uint64_t pos,BitBoard *board);//posの座標に石を置く,posは�
 void inverseTEBAN(BitBoard *board);//手番変え
 
 int checkLeagal(BitBoard board);
-
+}
 #endif

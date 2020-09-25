@@ -3,12 +3,12 @@
 #include<stdlib.h>
 #include<time.h>
 #include <unistd.h>
-#include"./eval.h"
+//#include"./eval.h"
 #include"./othero.h"
-#include"./learn.h"
-#include"./engine/rand_ai.h"
-#include"./engine/one.h"
-#include"./solve.h"
+//#include"./learn.h"
+//#include"./engine/rand_ai.h"
+//#include"./engine/one.h"
+//#include"./solve.h"
 
 /*
 棋譜のフォーマット

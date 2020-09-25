@@ -11,9 +11,12 @@
 #include <unistd.h>
 #include"./othero.h"
 
+Othero::Othero(){};
+Othero::~Othero(){};
+
 //bitcount
 //詳しくは分割統治法でggr
-int bitCount(uint64_t board){
+int Othero::bitCount(uint64_t board){
   board = (board & 0x5555555555555555) + ( (board>> 1) & 0x5555555555555555);
   board = (board & 0x3333333333333333) + ( (board>> 2) & 0x3333333333333333);
   board = (board & 0xF0F0F0F0F0F0F0F ) + ( (board>> 4) & 0xF0F0F0F0F0F0F0F);
@@ -23,14 +26,14 @@ int bitCount(uint64_t board){
 }
 
 //初期化
-void init(BitBoard *board){
+void Othero::init(BitBoard *board){
 	board->black = 0x1008000000;
 	board->white = 0x810000000;
 	board->teban = SENTE;
 }
 
 
-void show(BitBoard *board){
+void Othero::show(BitBoard *board){
   int i,j;
   printf(" a b c d e f g h\n");
   printf(" ＿＿＿＿＿＿＿＿\n");
@@ -63,7 +66,7 @@ void show(BitBoard *board){
 
 
 //与えられたposから裏返る石の座標を返す
-uint64_t reverse(uint64_t pos, BitBoard *board){
+uint64_t Othero::reverse(uint64_t pos, BitBoard *board){
   int i;
   uint64_t revd_board=0;
   uint64_t enemy,me,tmp=0;
@@ -172,7 +175,7 @@ uint64_t reverse(uint64_t pos, BitBoard *board){
 }
 
 //合法手の数を返す関数
-uint64_t canReverse(BitBoard *board)
+uint64_t Othero::canReverse(BitBoard *board)
 {
   int i;
   uint64_t legalboard=0,empty,temp;
@@ -194,7 +197,7 @@ uint64_t canReverse(BitBoard *board)
   return legalboard;
 }
 
-int checkGameover(BitBoard *board)
+int Othero::checkGameover(BitBoard *board)
 {
   //PASS:1
   //GAMEOVER:2
@@ -225,7 +228,7 @@ int checkGameover(BitBoard *board)
   return 0;
 }
 
-void inverseTEBAN(BitBoard *board)
+void Othero::inverseTEBAN(BitBoard *board)
 {
   if(board->teban == SENTE) board->teban = GOTE;
   else board->teban = SENTE;
@@ -260,7 +263,7 @@ uint64_t put(uint64_t pos,BitBoard *board)
 }
 
 //結果表示
-void result(BitBoard *board)
+void Othero::result(BitBoard *board)
 {
   printf("黒石%d個\n",bitCount(board->black));
   printf("白石%d個\n",bitCount(board->white));
@@ -276,7 +279,7 @@ void result(BitBoard *board)
   
   
 }
-uint64_t inputPos() {
+uint64_t Othero::inputPos() {
   char retu;
   int gyo;
   printf("座標の入力(例：e3)\n");
@@ -288,7 +291,7 @@ uint64_t inputPos() {
   return ((uint64_t)1<<((7-(int)(retu-'a'))+8*(8-gyo)));
 }
 
-int checkLeagal(BitBoard board)
+int Othero::checkLeagal(BitBoard board)
 {
   if((board.black&board.white)==0) return 1;
   else return 0;

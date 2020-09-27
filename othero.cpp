@@ -11,8 +11,8 @@
 #include <unistd.h>
 #include"./othero.h"
 
-Othero::Othero(){};
-Othero::~Othero(){};
+//Othero::Othero(){};
+//Othero::~Othero(){};
 
 //bitcount
 //詳しくは分割統治法でggr
@@ -237,7 +237,7 @@ void Othero::inverseTEBAN(BitBoard *board)
 
 //置く処理
 //reverseと同様の処理をしている場所を書き直す
-uint64_t put(uint64_t pos,BitBoard *board)
+uint64_t Othero::put(uint64_t pos,BitBoard *board)
 {
   int i;
   uint64_t revd_board;//裏返った盤面

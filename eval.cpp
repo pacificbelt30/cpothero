@@ -36,6 +36,7 @@ corner
   ________
 */
 
+/*
 //パターンの配列
 //配列でかすぎる
 int hor2[6561]; 
@@ -48,7 +49,7 @@ int dir7[2187];
 int dir8[6561]; 
 int cor[6561]; 
 int edg[6561]; 
-
+*/
 
 //関数のプロトタイプ宣言
 //ジャンプ用 prototype dec
@@ -62,7 +63,7 @@ int edg[6561];
 //3=2列目
 //4=7列目
 //他は-1
-int sumhor2(BitBoard *board,int direction)
+int Eval::sumhor2(BitBoard *board,int direction)
 {
   int index;
   switch (direction)
@@ -120,7 +121,7 @@ int sumhor2(BitBoard *board,int direction)
   
 }
 
-int sumhor3(BitBoard *board,int direction)
+int Eval::sumhor3(BitBoard *board,int direction)
 {
   int index;
   switch (direction)
@@ -178,7 +179,7 @@ int sumhor3(BitBoard *board,int direction)
   
 }
 
-int sumhor4(BitBoard *board,int direction)
+int Eval::sumhor4(BitBoard *board,int direction)
 {
   int index;
   switch (direction)
@@ -236,7 +237,7 @@ int sumhor4(BitBoard *board,int direction)
   
 }
 
-int sumdir4(BitBoard *board,int direction)
+int Eval::sumdir4(BitBoard *board,int direction)
 {
   int index;
   switch (direction)
@@ -278,7 +279,7 @@ int sumdir4(BitBoard *board,int direction)
   
 }
 
-int sumdir5(BitBoard *board,int direction)
+int Eval::sumdir5(BitBoard *board,int direction)
 {
   int index;
   switch (direction)
@@ -324,7 +325,7 @@ int sumdir5(BitBoard *board,int direction)
   
 }
 
-int sumdir6(BitBoard *board,int direction)
+int Eval::sumdir6(BitBoard *board,int direction)
 {
   int index;
   switch (direction)
@@ -374,7 +375,7 @@ int sumdir6(BitBoard *board,int direction)
   
 }
 
-int sumdir7(BitBoard *board,int direction)
+int Eval::sumdir7(BitBoard *board,int direction)
 {
   int index;
   switch (direction)
@@ -428,7 +429,7 @@ int sumdir7(BitBoard *board,int direction)
   
 }
 
-int sumdir8(BitBoard *board,int direction)
+int Eval::sumdir8(BitBoard *board,int direction)
 {
   int index;
   switch (direction)
@@ -464,7 +465,7 @@ int sumdir8(BitBoard *board,int direction)
   
 }
 
-int sumedg(BitBoard *board,int direction)
+int Eval::sumedg(BitBoard *board,int direction)
 {
   int index;
   switch (direction)
@@ -522,7 +523,7 @@ int sumedg(BitBoard *board,int direction)
   
 }
 
-int sumcor(BitBoard *board,int direction)
+int Eval::sumcor(BitBoard *board,int direction)
 {
   int index;
   switch (direction)
@@ -580,7 +581,7 @@ int sumcor(BitBoard *board,int direction)
   
 }
 
-int sumeval(BitBoard *board)
+int Eval::sumeval(BitBoard *board)
 {
   int sum=0;
   sum += hor2[sumhor2(board,1)];//3^8 = 6561
@@ -637,7 +638,7 @@ int sumeval(BitBoard *board)
 
 //評価関数を開いて
 //void openeval(int *eval,int num)
-void openeval()
+void Eval::openeval()
 {
   int i;
   FILE *d4,*d5,*d6,*d7,*d8,*h2,*h3,*h4,*cr,*eg;
@@ -777,7 +778,7 @@ void openeval()
 }
 
 
-void initArray(int n,int *eval)
+void Eval::initArray(int n,int *eval)
 {
   int i;
   for ( i = 0; i < n; i++)
@@ -788,7 +789,7 @@ void initArray(int n,int *eval)
 }
 
 //Debug用
-void showBitboard(BitBoard *board)
+void Eval::showBitboard(BitBoard *board)
 {
     int i;
     printf("SENTE\n");

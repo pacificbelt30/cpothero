@@ -6,7 +6,8 @@
 #include"./othero.h"
 #ifndef _EVAL_
 #define _EVAL_
-void writeeval(FILE *fp,int n,int pat[]);
+class Eval{
+public:
 //パターンの値を計算する
 int sumhor2(BitBoard *board,int direction);//3^8 = 6561
 int sumhor3(BitBoard *board,int direction);//3^8 = 6561
@@ -28,16 +29,16 @@ void openeval();
 
 //パターンの配列
 //配列でかすぎる
-extern int hor2[6561]; 
-extern int hor3[6561]; 
-extern int hor4[6561]; 
-extern int dir4[81]; 
-extern int dir5[243]; 
-extern int dir6[729]; 
-extern int dir7[2187]; 
-extern int dir8[6561]; 
-extern int cor[6561]; 
-extern int edg[6561]; 
+int hor2[6561]; 
+int hor3[6561]; 
+int hor4[6561]; 
+int dir4[81]; 
+int dir5[243]; 
+int dir6[729]; 
+int dir7[2187]; 
+int dir8[6561]; 
+int cor[6561]; 
+int edg[6561]; 
 
 /*
 static int hor2l[6561]; 
@@ -51,4 +52,5 @@ static int dir8l[6561];
 static int corl[6561]; 
 static int edgl[6561]; 
 */
+};
 #endif

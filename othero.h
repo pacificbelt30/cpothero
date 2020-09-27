@@ -22,7 +22,7 @@ typedef struct _BitBoard{
 	TEBAN teban;
 }BitBoard;
 
-class Ohtero
+class Othero
 {
   public:
 uint64_t inputPos();
@@ -41,5 +41,5 @@ uint64_t put(uint64_t pos,BitBoard *board);//posの座標に石を置く,posは�
 void inverseTEBAN(BitBoard *board);//手番変え
 
 int checkLeagal(BitBoard board);
-}
+};
 #endif

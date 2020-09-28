@@ -1,0 +1,3 @@
+/home/user/cpothero/CMakeFiles/rebuild_cache.dir
+/home/user/cpothero/CMakeFiles/edit_cache.dir
+/home/user/cpothero/CMakeFiles/main.dir

@@ -214,16 +214,17 @@ int Othero::checkGameover(BitBoard *board)
   }
   else if(canReverse(board)==0)
   { 
-      board->teban*=(-1);
-      //inverseTEBAN(board);
+      //board->teban*=(-1);
+      inverseTEBAN(board);
+      
       if(canReverse(board)==0)
       {
-          board->teban*=(-1);
-          //inverseTEBAN(board);
+          //board->teban*=(-1);
+          inverseTEBAN(board);
           return GAME_OVER;
       }
-      board->teban*=(-1);
-      //inverseTEBAN(board);
+      //board->teban*=(-1);
+      inverseTEBAN(board);
   }
   return 0;
 }

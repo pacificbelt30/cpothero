@@ -25,7 +25,6 @@ typedef struct _BitBoard{
 class Othero
 {
   public:
-uint64_t inputPos();
 int bitCount(uint64_t board);//1の立っている数を数える,分割統治法
 void init(BitBoard *board);//初期盤面
 

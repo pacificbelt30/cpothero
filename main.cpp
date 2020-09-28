@@ -50,24 +50,30 @@ int main(){
   //randAi(te);
   one(te);
   */
+  Othero othero;
   BitBoard board;
+  othero.init(&board);
+  /*
   board.black=BLACK;
   board.white=WHITE;
   board.teban=GOTE;
   board.teban=SENTE;
-  printf("%d\n",checkLeagal(board));
-  printf("%llu\n",canReverse(&board));
-  printf("初手合法手%llu\n",bitCount(canReverse(&board)));
-  inverseTEBAN(&board);
+  */
+  printf("%d\n",othero.checkLeagal(board));
+  printf("%llu\n",othero.canReverse(&board));
+  printf("初手合法手%llu\n",othero.bitCount(othero.canReverse(&board)));
+  othero.inverseTEBAN(&board);
   printf("%d\n",board.teban);
-  inverseTEBAN(&board);
+  othero.inverseTEBAN(&board);
   printf("%d\n",board.teban);
-  printf("結果%d\n",solver(board));  
-  printf("結果%d\n",solverMM(board));  
-  //printf("結果%d\n",(int)(BLACK&WHITE));  
+  //printf("結果%d\n",solver(board));  
+  //printf("結果%d\n",solverMM(board));  
+  //printf("結果%d\n",(int)(BLACK&WHITE));
+  /*
   openeval();
   srand((unsigned int)time(NULL)); // 現在時刻の情報で初期化
   generateKif(100);//引数に作成する対局数
   learning();//学習用
+  */
   return 0;
 }

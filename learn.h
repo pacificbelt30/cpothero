@@ -11,6 +11,8 @@
 
 #define SOLVE_DEPTH 10
 
+class Learn{
+    public:
 //追加
 void generateKif(int n);//棋譜を作成する関数
 //getPosnum posの座標をint型で取得
@@ -20,4 +22,5 @@ void updateeval(int point,BitBoard *board);
 void learning();
 void writeeval(FILE *fp,int n,int pat[]);
 int **makeKifArray(int n);//kifのポインタ
+};
 #endif

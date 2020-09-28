@@ -61,8 +61,10 @@
 
 #define INFINITY (64*1000+1);
 
-
+class Solve{
+    public:
 int solver(BitBoard board);
 int solverMM(BitBoard board);
 //void inverseTEBAN(BitBoard *board);
+};
 #endif

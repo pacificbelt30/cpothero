@@ -32,3 +32,10 @@
 *.app
 
 /.ccls-cache
+/CMakeFiles
+.ninja_deps
+.ninja_log
+CMakeCache.txt
+build.ninja
+cmake_install.cmake
+main

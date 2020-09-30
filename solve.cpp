@@ -9,7 +9,12 @@
 //うまく行ってる？
 //どこに打てばいいかと，最終予想石差
 //最終一手最適化をしよう
-int solver(BitBoard board){
+
+Solve::Solve()
+{
+    Othero othero;
+}
+int Solve::solver(BitBoard board){
 
   int i,j;
   int val;
@@ -17,24 +22,24 @@ int solver(BitBoard board){
   int count=0;
   int best = (-1)*INFINITY;
   BitBoard temp;
-  uint64_t legal = canReverse(&board);
-  legalnum=bitCount(legal);
+  uint64_t legal = Othero::canReverse(&board);
+  legalnum=Othero::bitCount(legal);
 
   //DEBUG
   //printf("TEBAN=%d\n",board.teban);
   //show(&board);
 
   /* 葉の場合、評価値を返す */
-  if(checkGameover(&board)==GAME_OVER)
+  if(Othero::checkGameover(&board)==GAME_OVER)
   {
     //if(board.teban == SENTE)//後手が最後に指した
     if(board.teban == GOTE)//後手が最後に指した
     {
-      return bitCount(board.white) - bitCount(board.black);
+      return Othero::bitCount(board.white) - Othero::bitCount(board.black);
     }
     else//先手が最後に指した
     {
-      return bitCount(board.black) - bitCount(board.white);
+      return Othero::bitCount(board.black) - Othero::bitCount(board.white);
     }
   } //return eval();
 
@@ -46,7 +51,7 @@ int solver(BitBoard board){
   if(legalnum == 0)
   {
     temp = board;
-    inverseTEBAN(&temp);
+    Othero::inverseTEBAN(&temp);
     //put(1<<i,&temp);
     val = (-1)*solver(temp);
     if(best<val) best = val;
@@ -63,7 +68,7 @@ int solver(BitBoard board){
       //BitBoard temp = board;
       temp = vput((uint64_t)(1)<<i,&board);
       temp.teban = board.teban;
-      inverseTEBAN(&temp);
+      Othero::inverseTEBAN(&temp);
       val = (-1)*solver(temp);
       if(best<val) best = val;
     }
@@ -74,7 +79,7 @@ int solver(BitBoard board){
   return best;
 }
 
-int solverMM(BitBoard board){
+int Solve::solverMM(BitBoard board){
 
   int i,j;
   int val;
@@ -82,17 +87,17 @@ int solverMM(BitBoard board){
   int count=0;
   int best = (board.teban)*INFINITY;
   BitBoard temp;
-  uint64_t legal = canReverse(&board);
-  legalnum=bitCount(legal);
+  uint64_t legal = Othero::canReverse(&board);
+  legalnum=Othero::bitCount(legal);
 
   //DEBUG
   //printf("TEBAN=%d\n",board.teban);
   //show(&board);
 
   /* 葉の場合、評価値を返す */
-  if(checkGameover(&board)==GAME_OVER)
+  if(Othero::checkGameover(&board)==GAME_OVER)
   {
-    return bitCount(board.black) - bitCount(board.white);
+    return Othero::bitCount(board.black) - Othero::bitCount(board.white);
   } //return eval();
 
   /* 現在の局面から1手進めた状態をa1,a2,a3・・akとする */
@@ -103,8 +108,8 @@ int solverMM(BitBoard board){
   if(legalnum == 0)
   {
     temp = board;
-    temp.teban = (-1)*board.teban;
-    //inverseTEBAN(&temp);
+    //temp.teban = (-1)*board.teban;
+    Othero::inverseTEBAN(&temp);
     //put(1<<i,&temp);
     val = solverMM(temp);
     //if(best<val) best = val;
@@ -123,8 +128,8 @@ int solverMM(BitBoard board){
         //BitBoard temp = board;
         temp = vput((uint64_t)1<<i,&board);
         //temp.teban = board.teban;
-        temp.teban = (-1)*board.teban;
-        //inverseTEBAN(&temp);
+        //temp.teban = (-1)*board.teban;
+        Othero::inverseTEBAN(&temp);
         val = solverMM(temp);
         if(best<val) best = val;
       }
@@ -142,8 +147,8 @@ int solverMM(BitBoard board){
         count++;
         //BitBoard temp = board;
         temp = vput((uint64_t)1<<i,&board);
-        temp.teban = (-1)*board.teban;
-        //inverseTEBAN(&temp);
+        //temp.teban = (-1)*board.teban;
+        Othero::inverseTEBAN(&temp);
         val = solverMM(temp);
         if(best>val) best = val;
       }

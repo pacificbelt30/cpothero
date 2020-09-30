@@ -17,21 +17,21 @@ void randAi(int te)
   char retu;
   uint64_t pos,legal;
   BitBoard board;
-  init(&board);
-  show(&board);
+  Othero::init(&board);
+  Othero::show(&board);
   printf("試合開始\n");
   fflush(stdout);
   //対戦部分(人間先手1，後手-1)
   if(te==1)
   {
-    while(checkGameover(&board)!=GAME_OVER&&count<100)
+    while(Othero::checkGameover(&board)!=GAME_OVER&&count<100)
     {
       if (board.teban==SENTE)
       {
         //ai側
         printf("sente\n");
         fflush(stdout);
-        legal=canReverse(&board);
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = GOTE;
           //count++;
@@ -41,9 +41,9 @@ void randAi(int te)
         {
           pos = randPos(legal);
           if (!pos) return;
-          put(pos,&board);
+          Othero::put(pos,&board);
         }
-        show(&board);
+        Othero::show(&board);
         board.teban=GOTE;
       }
       /*
@@ -73,8 +73,8 @@ void randAi(int te)
         //人側
         printf("gote\n");
         fflush(stdout);
-        pos = canReverse(&board) & inputPos();
-        legal=canReverse(&board);
+        pos = Othero::canReverse(&board) & Othero::inputPos();
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = SENTE;
           //count++;
@@ -85,8 +85,8 @@ void randAi(int te)
           continue;
         }
 
-        put(pos,&board);
-        show(&board);
+        Othero::put(pos,&board);
+        Othero::show(&board);
         board.teban = SENTE;
       }
 
@@ -96,15 +96,15 @@ void randAi(int te)
   }
   else if(te==1)//(te=1)の処理
   {
-    while(checkGameover(&board)!=GAME_OVER&&count<100)
+    while(Othero::checkGameover(&board)!=GAME_OVER&&count<100)
     {
       if (board.teban==SENTE)
       {
         //人側
         printf("sente\n");
         fflush(stdout);
-        pos = canReverse(&board) & inputPos();
-        legal=canReverse(&board);
+        pos = Othero::canReverse(&board) & Othero::inputPos();
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = GOTE;
           //count++;
@@ -115,8 +115,8 @@ void randAi(int te)
           continue;
         }
   
-        put(pos,&board);
-        show(&board);
+        Othero::put(pos,&board);
+        Othero::show(&board);
         board.teban = GOTE;
       }
       else
@@ -124,7 +124,7 @@ void randAi(int te)
         //ai側
         printf("gote\n");
         fflush(stdout);
-        legal=canReverse(&board);
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = SENTE;
           //count++;
@@ -134,9 +134,9 @@ void randAi(int te)
         {
           pos = randPos(legal);
           if (!pos) return;
-          put(pos,&board);
+          Othero::put(pos,&board);
         }
-        show(&board);
+        Othero::show(&board);
         board.teban=SENTE;
       }
 
@@ -148,14 +148,14 @@ void randAi(int te)
   else if(te==99)
   {
     
-    while(checkGameover(&board)!=GAME_OVER&&count<100)
+    while(Othero::checkGameover(&board)!=GAME_OVER&&count<100)
     {      
       if (board.teban==SENTE)
       {
         //ai側
         printf("sente\n");
         fflush(stdout);
-        legal=canReverse(&board);
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = GOTE;
           //count++;
@@ -165,9 +165,9 @@ void randAi(int te)
         {
           pos = randPos(legal);
           if (!pos) return;
-          put(pos,&board);
+          Othero::put(pos,&board);
         }
-        show(&board);
+        Othero::show(&board);
         board.teban=GOTE;
       }
       else
@@ -175,7 +175,7 @@ void randAi(int te)
         //ai側
         printf("gote\n");
         fflush(stdout);
-        legal=canReverse(&board);
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = SENTE;
           //count++;
@@ -185,9 +185,9 @@ void randAi(int te)
         {
           pos = randPos(legal);
           if (!pos) return;
-          put(pos,&board);
+          Othero::put(pos,&board);
         }
-        show(&board);
+        Othero::show(&board);
         board.teban=SENTE;
       }
 
@@ -198,7 +198,7 @@ void randAi(int te)
   }
   
   printf("%d手\n",count);
-  result(&board);
+  Othero::result(&board);
   return;
 }
 
@@ -206,7 +206,7 @@ void randAi(int te)
 uint64_t randPos(uint64_t legalboard)
 {
   int index,count=0,i,num;
-  num = bitCount(legalboard);
+  num = Othero::bitCount(legalboard);
   //srand((unsigned int)time(NULL)); // 現在時刻の情報で初期化
   index = rand() % num;//1から合法手の数までの乱数
   for ( i = 0; i < 64; i++)

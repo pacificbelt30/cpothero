@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include"./othero.h"
 #include"./eval.h"
-
+#include "./engine/one.h"
 /*
 棋譜のフォーマット
 間は空白or改行
@@ -55,6 +55,33 @@ int edg[6561];
 //ジャンプ用 prototype dec
 //学習時にいらない関数
 
+Eval::Eval()
+{
+    hor2 = (int*)malloc(6561*sizeof(int)); 
+    hor3 = (int*)malloc(6561*sizeof(int)); 
+    hor4 = (int*)malloc(6561*sizeof(int)); 
+    dir4 = (int*)malloc(81  *sizeof(int)); 
+    dir5 = (int*)malloc(243 *sizeof(int)); 
+    dir6 = (int*)malloc(729 *sizeof(int)); 
+    dir7 = (int*)malloc(2187*sizeof(int)); 
+    dir8 = (int*)malloc(6561*sizeof(int)); 
+    cor  = (int*)malloc(6561*sizeof(int)); 
+    edg  = (int*)malloc(6561*sizeof(int)); 
+    openeval();
+}
+Eval::~Eval()
+{
+    free(hor2); 
+    free(hor3); 
+    free(hor4); 
+    free(dir4); 
+    free(dir5); 
+    free(dir6); 
+    free(dir7); 
+    free(dir8); 
+    free(cor); 
+    free(edg); 
+}
 
 //パターン
 //direction 
@@ -807,4 +834,43 @@ void Eval::showBitboard(BitBoard *board)
     }
     printf("\n");
 }
+
+uint64_t Eval::evalPos(uint64_t legalboard,BitBoard *board)
+{
+  BitBoard temp;
+  int i;
+  int index,num,count=0;
+  int *sum;
+  num = Othero::bitCount(legalboard);
+  printf("num=%d\n",num);
+  sum = (int *)malloc(sizeof(int)*num);
+  printf("legalboard=%llu\n",legalboard);
+  for ( i = 0; i < 64; i++)
+  {
+    if(legalboard&((uint64_t)(1)<<i))
+    {
+      temp = vput(legalboard&((uint64_t)(1)<<i),board);
+      sum[count] = sumeval(&temp);
+      //printf("評価値=%d\n",sum[count]);
+      count++;
+    }
+  }
+  if (board->teban == SENTE) index = max(sum,num);
+  else index = min(sum,num);
+  count=0;
+  //printf("index=%d\n",index);
+  printf("評価値(先手視点) = %d\n",sum[index]);
+  free(sum);
+  for(i=0;i<64;i++)
+  {
+    if(legalboard&((uint64_t)(1)<<i))
+    {
+      //printf("i = %d\n",i);
+      if(index==count) return (uint64_t)(1)<<i;
+      else count++;
+    }
+  }
+  return 0;
+}
+
 

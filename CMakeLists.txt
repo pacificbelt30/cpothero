@@ -3,4 +3,9 @@ project(cpothero CXX)
 add_executable(main 
 main.cpp
 othero.cpp
+eval.cpp
+learn.cpp
+solve.cpp
+engine/one.cpp
+engine/rand_ai.cpp
 )

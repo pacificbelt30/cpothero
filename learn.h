@@ -11,8 +11,11 @@
 
 #define SOLVE_DEPTH 10
 
-class Learn{
+class Learn:public Eval{
     public:
+int **kif;
+using Eval::Eval;
+//using Eval::~Eval;
 //追加
 void generateKif(int n);//棋譜を作成する関数
 //getPosnum posの座標をint型で取得

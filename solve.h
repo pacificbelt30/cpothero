@@ -63,8 +63,9 @@
 
 class Solve{
     public:
-int solver(BitBoard board);
-int solverMM(BitBoard board);
+Solve();
+static int solver(BitBoard board);
+static int solverMM(BitBoard board);
 //void inverseTEBAN(BitBoard *board);
 };
 #endif

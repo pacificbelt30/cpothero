@@ -8,6 +8,8 @@
 #define _EVAL_
 class Eval{
 public:
+Eval();
+~Eval();
 //パターンの値を計算する
 int sumhor2(BitBoard *board,int direction);//3^8 = 6561
 int sumhor3(BitBoard *board,int direction);//3^8 = 6561
@@ -29,17 +31,18 @@ void openeval();
 
 //パターンの配列
 //配列でかすぎる
-int hor2[6561]; 
-int hor3[6561]; 
-int hor4[6561]; 
-int dir4[81]; 
-int dir5[243]; 
-int dir6[729]; 
-int dir7[2187]; 
-int dir8[6561]; 
-int cor[6561]; 
-int edg[6561]; 
+int *hor2; 
+int *hor3; 
+int *hor4; 
+int *dir4; 
+int *dir5; 
+int *dir6; 
+int *dir7; 
+int *dir8; 
+int *cor; 
+int *edg; 
 
+uint64_t evalPos(uint64_t legalboard,BitBoard *board);
 /*
 static int hor2l[6561]; 
 static int hor3l[6561]; 

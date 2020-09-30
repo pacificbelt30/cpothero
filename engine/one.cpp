@@ -10,7 +10,7 @@
 
 //一手読み
 //te 先手，後手
-void one(int te)
+void One::one(int te)
 {
   //手順：　先手で
   //指す->入力される->合法手判断->適用(再入力)->繰り返し
@@ -19,22 +19,23 @@ void one(int te)
   char retu;
   uint64_t pos,legal;
   BitBoard board;
-  init(&board);
-  show(&board);
+  //Eval eval;
+  Othero::init(&board);
+  Othero::show(&board);
   printf("試合開始\n");
   fflush(stdout);
-  openeval();
+  //eval.openeval();
   //対戦部分(人間先手1，後手-1)
   if(te==-1)
   {
-    while(checkGameover(&board)!=GAME_OVER&&count<100)
+    while(Othero::checkGameover(&board)!=GAME_OVER&&count<100)
     {
       if (board.teban==SENTE)
       {
         //ai側
         printf("sente\n");
         fflush(stdout);
-        legal=canReverse(&board);
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = GOTE;
           //count++;
@@ -42,12 +43,12 @@ void one(int te)
         }
         else
         {
-          pos = evalPos(legal,&board);
+          pos = eval.evalPos(legal,&board);
           //printf("evalPos=%d\n",pos);
           if (!pos) return;
-          put(pos,&board);
+          Othero::put(pos,&board);
         }
-        show(&board);
+        Othero::show(&board);
         board.teban=GOTE;
       }
       else
@@ -55,8 +56,8 @@ void one(int te)
         //人側
         printf("gote\n");
         fflush(stdout);
-        pos = canReverse(&board) & inputPos();
-        legal=canReverse(&board);
+        pos = Othero::canReverse(&board) & Othero::inputPos();
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = SENTE;
           //count++;
@@ -67,8 +68,8 @@ void one(int te)
           continue;
         }
 
-        put(pos,&board);
-        show(&board);
+        Othero::put(pos,&board);
+        Othero::show(&board);
         board.teban = SENTE;
       }
 
@@ -78,15 +79,15 @@ void one(int te)
   }
   else if(te==1)//(te=1)の処理
   {
-    while(checkGameover(&board)!=GAME_OVER&&count<100)
+    while(Othero::checkGameover(&board)!=GAME_OVER&&count<100)
     {
       if (board.teban==SENTE)
       {
         //人側
         printf("sente\n");
         fflush(stdout);
-        pos = canReverse(&board) & inputPos();
-        legal=canReverse(&board);
+        pos = Othero::canReverse(&board) & Othero::inputPos();
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = GOTE;
           //count++;
@@ -97,8 +98,8 @@ void one(int te)
           continue;
         }
   
-        put(pos,&board);
-        show(&board);
+        Othero::put(pos,&board);
+        Othero::show(&board);
         board.teban = GOTE;
       }
       else
@@ -106,7 +107,7 @@ void one(int te)
         //ai側
         printf("gote\n");
         fflush(stdout);
-        legal=canReverse(&board);
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = SENTE;
           //count++;
@@ -114,12 +115,12 @@ void one(int te)
         }
         else
         {
-          pos = evalPos(legal,&board);
+          pos = eval.evalPos(legal,&board);
           //printf("evalPos=%d\n",pos);
           if (!pos) return;
-          put(pos,&board);
+          Othero::put(pos,&board);
         }
-        show(&board);
+        Othero::show(&board);
         board.teban=SENTE;
       }
 
@@ -131,14 +132,14 @@ void one(int te)
   else if(te==99)
   {
     
-    while(checkGameover(&board)!=GAME_OVER&&count<100)
+    while(Othero::checkGameover(&board)!=GAME_OVER&&count<100)
     {      
       if (board.teban==SENTE)
       {
         //ai側
         printf("sente\n");
         fflush(stdout);
-        legal=canReverse(&board);
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = GOTE;
           //count++;
@@ -146,11 +147,11 @@ void one(int te)
         }
         else
         {
-          pos = evalPos(legal,&board);
+          pos = eval.evalPos(legal,&board);
           if (!pos) return;
-          put(pos,&board);
+          Othero::put(pos,&board);
         }
-        show(&board);
+        Othero::show(&board);
         board.teban=GOTE;
       }
       else
@@ -158,7 +159,7 @@ void one(int te)
         //ai側
         printf("gote\n");
         fflush(stdout);
-        legal=canReverse(&board);
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = SENTE;
           //count++;
@@ -166,11 +167,11 @@ void one(int te)
         }
         else
         {
-          pos = evalPos(legal,&board);
+          pos = eval.evalPos(legal,&board);
           if (!pos) return;
-          put(pos,&board);
+          Othero::put(pos,&board);
         }
-        show(&board);
+        Othero::show(&board);
         board.teban=SENTE;
       }
 
@@ -181,46 +182,8 @@ void one(int te)
   }
   
   printf("%d手\n",count);
-  result(&board);
+  Othero::result(&board);
   return;
-}
-
-uint64_t evalPos(uint64_t legalboard,BitBoard *board)
-{
-  BitBoard temp;
-  int i;
-  int index,num,count=0;
-  int *sum;
-  num = bitCount(legalboard);
-  printf("num=%d\n",num);
-  sum = (int *)malloc(sizeof(int)*num);
-  printf("legalboard=%llu\n",legalboard);
-  for ( i = 0; i < 64; i++)
-  {
-    if(legalboard&((uint64_t)(1)<<i))
-    {
-      temp = vput(legalboard&((uint64_t)(1)<<i),board);
-      sum[count] = sumeval(&temp);
-      //printf("評価値=%d\n",sum[count]);
-      count++;
-    }
-  }
-  if (board->teban == SENTE) index = max(sum,num);
-  else index = min(sum,num);
-  count=0;
-  //printf("index=%d\n",index);
-  printf("評価値(先手視点) = %d\n",sum[index]);
-  free(sum);
-  for(i=0;i<64;i++)
-  {
-    if(legalboard&((uint64_t)(1)<<i))
-    {
-      //printf("i = %d\n",i);
-      if(index==count) return (uint64_t)(1)<<i;
-      else count++;
-    }
-  }
-  return 0;
 }
 
 //置く処理
@@ -246,7 +209,7 @@ BitBoard vput(uint64_t pos,BitBoard *board)
     me = &vi.white;
   }
 
-  revd_board = reverse(pos,board);//裏返った盤面
+  revd_board = Othero::reverse(pos,board);//裏返った盤面
   *me ^= (pos | revd_board);//自分盤面更新
   *enemy ^= revd_board;//相手盤面更新
   

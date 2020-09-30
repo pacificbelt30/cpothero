@@ -11,8 +11,9 @@
 #include "./engine/one.h"
 
 
+//追加
 //NULLチェック済み
-void writeeval(FILE *fp,int n,int pat[])
+void Learn::writeeval(FILE *fp,int n,int pat[])
 {
   int i;
   for ( i = 0; i < n; i++)
@@ -25,7 +26,7 @@ void writeeval(FILE *fp,int n,int pat[])
 
 //棋譜を作る
 //上限64手
-void generateKif(int n)
+void Learn::generateKif(int n)
 {
   //int kif[64];
   int kif[64];
@@ -51,7 +52,7 @@ void generateKif(int n)
   {
     //usleep(1);
     printf("初期化\n");
-    init(&board);
+    Othero::init(&board);
     count=0;
     //fprintf(fp,"第%d局目",taikyoku+1);
     printf("第%d局",taikyoku+1);
@@ -59,7 +60,7 @@ void generateKif(int n)
     {
       kif[i]=0;
     }
-    while(bitCount(~(board.black|board.white))>=SOLVE_DEPTH&&checkGameover(&board)!=GAME_OVER&&count<64)
+    while(Othero::bitCount(~(board.black|board.white))>=SOLVE_DEPTH&&Othero::checkGameover(&board)!=GAME_OVER&&count<64)
     {      
       //最終完全よみ（仮）
       /*
@@ -82,7 +83,7 @@ void generateKif(int n)
         //ai側
         printf("sente\n");
         fflush(stdout);
-        legal=canReverse(&board);
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = GOTE;
           count++;
@@ -94,11 +95,11 @@ void generateKif(int n)
           if(count<10)pos = randPos(legal);
           else pos = evalPos(legal,&board);
           if (!pos) return;
-          put(pos,&board);
+          Othero::put(pos,&board);
           //kif[count] = getRMB(pos);//kif保存
           kif[count] = getPosnum(pos);//kif保存
         }
-        show(&board);
+        Othero::show(&board);
         board.teban=GOTE;
       }
       else
@@ -106,7 +107,7 @@ void generateKif(int n)
         //ai側
         printf("gote\n");
         fflush(stdout);
-        legal=canReverse(&board);
+        legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = SENTE;
           count++;
@@ -118,18 +119,18 @@ void generateKif(int n)
           if(count<10)pos = randPos(legal);
           else pos = evalPos(legal,&board);
           if (!pos) return;
-          put(pos,&board);
+          Othero::put(pos,&board);
           //kif[count] = getRMB(pos);//kif保存
           kif[count] = getPosnum(pos);//kif保存
         }
-        show(&board);
+        Othero::show(&board);
         board.teban=SENTE;
       }
     
       count++;
       printf("%d手\n",count);
     }
-    resu=(board.teban)*solver(board);
+    resu=(board.teban)*Solve::solver(board);
     //resu = bitCount( board.black) - bitCount(board.white);
     fprintf(fp,"%d ",resu);
     //fprintf(fp,"石差 %d ",resu);
@@ -146,7 +147,7 @@ void generateKif(int n)
 
 
 //posが何番目のビットに立っているか
-int getPosnum(uint64_t pos)
+int Learn::getPosnum(uint64_t pos)
 {
     int count=0;
     if((pos>>63)==1) return 64;
@@ -159,7 +160,7 @@ int getPosnum(uint64_t pos)
 
 
 //棋譜を読み込むよう
-int **makeKifArray(int n)
+int **Learn::makeKifArray(int n)
 {
   int **kif;
   int i;
@@ -177,7 +178,7 @@ int **makeKifArray(int n)
 評価関数の初期化
 最初なので全部０
 */
-void learning()
+void Learn::learning()
 {
   double rate = 0.0003;
   BitBoard board;
@@ -251,7 +252,7 @@ void learning()
 
   printf("入力終了\n");
   fflush(stdout);
-  init(&board);
+  Othero::init(&board);
 
   printf("board初期化\n");
   fflush(stdout);
@@ -259,13 +260,13 @@ void learning()
   for ( i = 0; i < taikyoku; i++)
   {
     printf("第%d局\n",i);
-    init(&board);
+    Othero::init(&board);
     for (j = 0; j < 64; j++)
     {
       if(j%2==0)
       {//SENTE
         //put(kif[i][j],&board);
-        if(kif[i][j]!=0) put((uint64_t)1<<(kif[i][j]-1),&board);//uint64_tじゃない
+        if(kif[i][j]!=0) Othero::put((uint64_t)1<<(kif[i][j]-1),&board);//uint64_tじゃない
         printf("DEBUG BEFORE UPDATE\n");
         updateeval((int)(rate*((double)(-sumeval(&board)+1000*sekisa[i]))),&board);
 
@@ -277,7 +278,7 @@ void learning()
       else
       {//GOTE
         //put(kif[i][j],&board);
-        if(kif[i][j]!=0) put((uint64_t)1<<(kif[i][j]-1),&board);//uint64_tじゃない
+        if(kif[i][j]!=0) Othero::put((uint64_t)1<<(kif[i][j]-1),&board);//uint64_tじゃない
         printf("DEBUG BEFORE UPDATE\n");
         //updateeval((int)((-1)*rate*((double)(-sumeval(&board)+1000*sekisa[i]))),&board);
         updateeval((int)(rate*((double)(-sumeval(&board)+1000*sekisa[i]))),&board);
@@ -322,7 +323,7 @@ void learning()
 }
 
 
-void updateeval(int point,BitBoard *board)
+void Learn::updateeval(int point,BitBoard *board)
 {
   hor2[sumhor2(board,1)]+=point;//3^8 = 6561
   hor2[sumhor2(board,2)]+=point;//3^8 = 6561

@@ -9,5 +9,6 @@ class RandAIEngine : public Engine{
   public:
   private:
     uint64_t randPos(uint64_t legalboard);
+    uint64_t go() override;
 };
 #endif

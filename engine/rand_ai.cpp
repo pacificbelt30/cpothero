@@ -220,3 +220,24 @@ uint64_t randPos(uint64_t legalboard)
   return 0;
 }
 
+uint64_t RandAIEngine::randPos(uint64_t legalboard)
+{
+  int index,count=0,i,num;
+  num = Othero::bitCount(legalboard);
+  //srand((unsigned int)time(NULL)); // 現在時刻の情報で初期化
+  index = rand() % num;//1から合法手の数までの乱数
+  for ( i = 0; i < 64; i++)
+  {
+    if(legalboard&((uint64_t)1<<i))
+    {
+      if(count==index) return ((uint64_t)1<<i);//index番目の合法手を返す
+      else count++;
+    }
+  }
+  return 0;
+}
+
+uint64_t RandAIEngine::go(){
+  return Othero::canReverse(&this->getboard());
+  // return true;
+}

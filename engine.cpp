@@ -55,7 +55,7 @@ bool Engine::position(){
   return true;
 }
 
-bool Engine::go(){
+uint64_t Engine::go(){
   return true;
 }
 
@@ -73,4 +73,8 @@ bool Engine::gameover(){
 
 bool Engine::stop(){
   return true;
+}
+
+BitBoard Engine::getboard(){
+  return this->board;
 }

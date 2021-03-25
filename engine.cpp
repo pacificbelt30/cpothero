@@ -34,6 +34,7 @@ string Engine::recieve(){
   else{
     cout << "False" << endl;
   }
+  return "";
 }
 
 bool Engine::woi(){

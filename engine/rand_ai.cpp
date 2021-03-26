@@ -239,6 +239,11 @@ uint64_t RandAIEngine::randPos(uint64_t legalboard)
 
 uint64_t RandAIEngine::go(){
   BitBoard tmp = this->getboard();
-  return Othero::canReverse(&tmp);
+  return randPos(Othero::canReverse(&tmp));
   // return true;
 }
+
+string RandAIEngine::woi(){
+  return "RandAI";
+}
+

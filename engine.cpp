@@ -45,7 +45,7 @@ string Engine::recieve(){
     cout << gameover() << endl;
   }
   else{
-    cout << "False" << endl;
+    cout << "DEBUG:"<< command << endl;
   }
   }
   return "";

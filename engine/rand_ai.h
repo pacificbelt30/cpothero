@@ -1,6 +1,8 @@
 #include<stdint.h>
+#include<string>
 #include "../engine.h"
 
+using namespace std;
 #ifndef _RANDAI_
 #define _RANDAI_
 void randAi();//rand着手のAI
@@ -10,5 +12,6 @@ class RandAIEngine : public Engine{
   private:
     uint64_t randPos(uint64_t legalboard);
     uint64_t go() override;
+    string woi() override;
 };
 #endif

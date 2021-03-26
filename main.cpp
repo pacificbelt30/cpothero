@@ -50,15 +50,18 @@ int main(){
   //randAi(te);
   one(te);
   */
+  /*
   Othero othero;
   BitBoard board;
   othero.init(&board);
+  */
   /*
   board.black=BLACK;
   board.white=WHITE;
   board.teban=GOTE;
   board.teban=SENTE;
   */
+  /*
   printf("%d\n",othero.checkLeagal(board));
   printf("%llu\n",othero.canReverse(&board));
   printf("初手合法手%llu\n",othero.bitCount(othero.canReverse(&board)));
@@ -66,6 +69,7 @@ int main(){
   printf("%d\n",board.teban);
   othero.inverseTEBAN(&board);
   printf("%d\n",board.teban);
+  */
   //printf("結果%d\n",solver(board));  
   //printf("結果%d\n",solverMM(board));  
   //printf("結果%d\n",(int)(BLACK&WHITE));

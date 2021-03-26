@@ -34,7 +34,7 @@ string Engine::recieve(){
   }
   else if(command=="stop"){
     if(stop()){
-      cout << "OK" << endl;
+      cout << "stopok" << endl;
       break;
     }
     else{

@@ -225,6 +225,7 @@ int Othero::checkGameover(BitBoard *board)
       }
       //board->teban*=(-1);
       inverseTEBAN(board);
+      return PASS;
   }
   return 0;
 }

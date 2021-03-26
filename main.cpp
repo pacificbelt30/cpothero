@@ -73,9 +73,9 @@ int main(){
   //printf("結果%d\n",solver(board));  
   //printf("結果%d\n",solverMM(board));  
   //printf("結果%d\n",(int)(BLACK&WHITE));
-  /*
-  openeval();
+  //openeval();
   srand((unsigned int)time(NULL)); // 現在時刻の情報で初期化
+  /*
   generateKif(100);//引数に作成する対局数
   learning();//学習用
   */

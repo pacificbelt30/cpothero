@@ -18,7 +18,7 @@ class Engine{
     virtual bool gameover();
     virtual uint64_t go();
     virtual bool position();
-    virtual bool woi();
+    virtual string woi();
     virtual bool woiNewGame();
     virtual bool stop();
     virtual bool quit();

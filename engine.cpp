@@ -4,10 +4,11 @@
 using namespace std;
 
 string Engine::recieve(){
+  while(true){
   string command;
   cin >> command;
   if(command=="woi"){
-    cout << woi() << endl;
+    cout << "id " << woi() << endl;
   }
   else if(command=="woinewgame"){
     cout << woiNewGame() << endl;
@@ -16,17 +17,29 @@ string Engine::recieve(){
     cout << isReady() << endl;
   }
   else if(command=="go"){
-    cout << go() << endl;
+    cout << "bestmove " << go() << endl;
+    // cout << go() << endl;
   }
   else if(command=="position"){
-    cout << position() << endl;
+    if(position()){
+      cout << "posok" << endl;
+    }
+    else{
+      cout << "posfailed" << endl;
+    }
   }
   else if(command=="quit"){
     cout << quit() << endl;
     exit(0);
   }
   else if(command=="stop"){
-    cout << stop() << endl;
+    if(stop()){
+      cout << "OK" << endl;
+      break;
+    }
+    else{
+      cout << "NO" << endl;
+    }
   }
   else if(command=="gameover"){
     cout << gameover() << endl;
@@ -34,11 +47,12 @@ string Engine::recieve(){
   else{
     cout << "False" << endl;
   }
+  }
   return "";
 }
 
-bool Engine::woi(){
-  return true;
+string Engine::woi(){
+  return "test";
 }
 
 bool Engine::woiNewGame(){
@@ -57,7 +71,7 @@ bool Engine::position(){
 }
 
 uint64_t Engine::go(){
-  return true;
+  return 0;
 }
 
 bool Engine::isReady(){

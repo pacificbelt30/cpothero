@@ -6,7 +6,7 @@
 //#include"./eval.h"
 #include"./othero.h"
 //#include"./learn.h"
-//#include"./engine/rand_ai.h"
+#include"./engine/rand_ai.h"
 //#include"./engine/one.h"
 //#include"./solve.h"
 
@@ -75,5 +75,7 @@ int main(){
   generateKif(100);//引数に作成する対局数
   learning();//学習用
   */
+  RandAIEngine *e = new RandAIEngine();
+  e->recieve();
   return 0;
 }

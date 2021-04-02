@@ -10,13 +10,12 @@
 //te 先手，後手
 class One : public Engine{
     public:
-        Eval eval;
         void one(int te);
     private:
+        Eval eval;
         uint64_t bestPos(BitBoard board);
         uint64_t go() override;
         string woi() override;
-
 };
 //置く処理
 //reverseと同様の処理をしている場所を書き直す

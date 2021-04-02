@@ -36,6 +36,7 @@ static void result(BitBoard *board);//対局結果を出力,関数名を変え�
 static uint64_t reverse(uint64_t pos, BitBoard *board);//裏返し処理
 static uint64_t canReverse(BitBoard *board);//置ける場所を返す
 static uint64_t put(uint64_t pos,BitBoard *board);//posの座標に石を置く,posは合法手である必要がある
+static BitBoard vput(uint64_t pos,BitBoard *board);//posの座標に石を置いたときの盤面を返す,posは合法手である必要がある
 
 static void inverseTEBAN(BitBoard *board);//手番変え
 

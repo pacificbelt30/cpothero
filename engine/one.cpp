@@ -255,35 +255,7 @@ uint64_t One::go(){
 }
 
 uint64_t One::bestPos(BitBoard board){
-  return 0;
-}
-
-//置く処理
-//reverseと同様の処理をしている場所を書き直す
-BitBoard vput(uint64_t pos,BitBoard board)
-{
-  int i;
-  BitBoard vi;//teban関係なし
-  uint64_t revd_board;//裏返った盤面
-  uint64_t *enemy;
-  uint64_t *me;
-  vi.white = board.white;
-  vi.black = board.black;
-
-  if ( board.teban == SENTE )
-  {
-    enemy=&vi.white;
-    me = &vi.black;
-  }
-  else
-  {
-    enemy=&vi.black;
-    me = &vi.white;
-  }
-
-  revd_board = Othero::reverse(pos,&board);//裏返った盤面
-  *me ^= (pos | revd_board);//自分盤面更新
-  *enemy ^= revd_board;//相手盤面更新
-  
-  return vi;
+  uint64_t legal = Othero::canReverse(&board);
+  uint64_t pos = eval.evalPos(legal,&board);
+  return pos;
 }

@@ -849,7 +849,7 @@ uint64_t Eval::evalPos(uint64_t legalboard,BitBoard *board)
   {
     if(legalboard&((uint64_t)(1)<<i))
     {
-      temp = vput(legalboard&((uint64_t)(1)<<i),board);
+      temp = Othero::vput(legalboard&((uint64_t)(1)<<i),board);
       sum[count] = sumeval(&temp);
       //printf("評価値=%d\n",sum[count]);
       count++;

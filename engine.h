@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include "othero.h"
+
+#ifndef __ENGINE__
+#define __ENGINE__
 using namespace std;
 
 // 基底クラス
@@ -23,3 +26,4 @@ class Engine{
     virtual bool stop();
     virtual bool quit();
 };
+#endif

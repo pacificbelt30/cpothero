@@ -79,7 +79,7 @@ int main(){
   generateKif(100);//引数に作成する対局数
   learning();//学習用
   */
-  // RandAIEngine *e = new RandAIEngine();
+  //RandAIEngine *e = new RandAIEngine();
   One *e = new One();
   e->recieve();
   return 0;

@@ -1,3 +1,4 @@
+#include<iostream>
 #include<stdio.h>
 #include<stdlib.h>
 #include "./eval.h"
@@ -5,6 +6,7 @@
 #include "./learn.h"
 #include "./solve.h"
 #include "./engine/one.h"
+using namespace std;
 
 //うまく行ってる？
 //どこに打てばいいかと，最終予想石差
@@ -26,7 +28,7 @@ int Solve::solver(BitBoard board){
   legalnum=Othero::bitCount(legal);
 
   //DEBUG
-  //printf("TEBAN=%d\n",board.teban);
+  //cout << "TEBAN=" << board.teban << endl;
   //show(&board);
 
   /* 葉の場合、評価値を返す */
@@ -91,7 +93,7 @@ int Solve::solverMM(BitBoard board){
   legalnum=Othero::bitCount(legal);
 
   //DEBUG
-  //printf("TEBAN=%d\n",board.teban);
+  //cout << "TEBAN=" << board.teban << endl;
   //show(&board);
 
   /* 葉の場合、評価値を返す */

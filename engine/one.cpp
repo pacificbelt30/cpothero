@@ -1,3 +1,4 @@
+#include<iostream>
 #include<stdio.h>
 #include<stdint.h>
 #include<stdlib.h>
@@ -7,6 +8,7 @@
 #include"../othero.h"
 #include"../learn.h"
 #include"./one.h"
+using namespace std;
 
 //一手読み
 //te 先手，後手
@@ -22,7 +24,7 @@ void One::one(int te)
   //Eval eval;
   Othero::init(&board);
   Othero::show(&board);
-  printf("試合開始\n");
+  cout << "試合開始" << endl;
   fflush(stdout);
   //eval.openeval();
   //対戦部分(人間先手1，後手-1)
@@ -33,7 +35,7 @@ void One::one(int te)
       if (board.teban==SENTE)
       {
         //ai側
-        printf("sente\n");
+        cout << "sente" << endl;
         fflush(stdout);
         legal=Othero::canReverse(&board);
         if(!legal){
@@ -44,7 +46,7 @@ void One::one(int te)
         else
         {
           pos = eval.evalPos(legal,&board);
-          //printf("evalPos=%d\n",pos);
+          //cout << "evalPos=" << pos << endl;
           if (!pos) return;
           Othero::put(pos,&board);
         }
@@ -54,7 +56,7 @@ void One::one(int te)
       else
       {
         //人側
-        printf("gote\n");
+        cout << "gote" << endl;
         fflush(stdout);
         pos = Othero::canReverse(&board) & Othero::inputPos();
         legal=Othero::canReverse(&board);
@@ -74,7 +76,7 @@ void One::one(int te)
       }
 
       count++;
-      printf("%d手\n",count);
+      cout << count << "手" << endl;
     }
   }
   else if(te==1)//(te=1)の処理
@@ -84,7 +86,7 @@ void One::one(int te)
       if (board.teban==SENTE)
       {
         //人側
-        printf("sente\n");
+        cout << "sente" << endl;
         fflush(stdout);
         pos = Othero::canReverse(&board) & Othero::inputPos();
         legal=Othero::canReverse(&board);
@@ -105,7 +107,7 @@ void One::one(int te)
       else
       {
         //ai側
-        printf("gote\n");
+        cout << "gote" << endl;
         fflush(stdout);
         legal=Othero::canReverse(&board);
         if(!legal){
@@ -116,7 +118,7 @@ void One::one(int te)
         else
         {
           pos = eval.evalPos(legal,&board);
-          //printf("evalPos=%d\n",pos);
+          //cout << "evalPos=" << pos << endl;
           if (!pos) return;
           Othero::put(pos,&board);
         }
@@ -126,7 +128,7 @@ void One::one(int te)
 
   
       count++;
-      printf("%d手\n",count);
+      cout << count << "手" << endl;
     }
   }
   else if(te==99)
@@ -137,7 +139,7 @@ void One::one(int te)
       if (board.teban==SENTE)
       {
         //ai側
-        printf("sente\n");
+        cout << "sente" << endl;
         fflush(stdout);
         legal=Othero::canReverse(&board);
         if(!legal){
@@ -157,7 +159,7 @@ void One::one(int te)
       else
       {
         //ai側
-        printf("gote\n");
+        cout << "gote" << endl;
         fflush(stdout);
         legal=Othero::canReverse(&board);
         if(!legal){
@@ -177,11 +179,11 @@ void One::one(int te)
 
   
       count++;
-      printf("%d手\n",count);
+      cout << count << "手" << endl;
     }
   }
   
-  printf("%d手\n",count);
+  cout << count << "手" << endl;
   Othero::result(&board);
   return;
 }

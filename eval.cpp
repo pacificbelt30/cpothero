@@ -1,3 +1,4 @@
+#include<iostream>
 #include<stdio.h>
 #include<stdint.h>
 #include<stdlib.h>
@@ -7,6 +8,7 @@
 #include"./othero.h"
 #include"./eval.h"
 #include "./engine/one.h"
+using namespace std;
 /*
 棋譜のフォーマット
 間は空白or改行
@@ -141,7 +143,7 @@ int Eval::sumhor2(BitBoard *board,int direction)
     break;
 
   default:
-    printf("ERROR sumhor2");
+    cout << "ERROR sumhor2" << endl;
     return -1;
     break;
   }
@@ -199,7 +201,7 @@ int Eval::sumhor3(BitBoard *board,int direction)
     break;
 
   default:
-    printf("ERROR sumhor3");
+    cout << "ERROR sumhor3" << endl;
     return -1;
     break;
   }
@@ -257,7 +259,7 @@ int Eval::sumhor4(BitBoard *board,int direction)
     break;
 
   default:
-    printf("ERROR sumhor4");
+    cout << "ERROR sumhor4" << endl;
     return -1;
     break;
   }
@@ -299,7 +301,7 @@ int Eval::sumdir4(BitBoard *board,int direction)
     break;
 
   default:
-    printf("ERROR sumdir4");
+    cout << "ERROR sumdir4" << endl;
     return -1;
     break;
   }
@@ -345,7 +347,7 @@ int Eval::sumdir5(BitBoard *board,int direction)
     break;
 
   default:
-    printf("ERROR sumdir5");
+    cout << "ERROR sumdir5" << endl;
     return -1;
     break;
   }
@@ -395,7 +397,7 @@ int Eval::sumdir6(BitBoard *board,int direction)
     break;
 
   default:
-    printf("ERROR sumdir6");
+    cout << "ERROR sumdir6" << endl;
     return -1;
     break;
   }
@@ -449,7 +451,7 @@ int Eval::sumdir7(BitBoard *board,int direction)
     break;
 
   default:
-    printf("ERROR sumdir7");
+    cout << "ERROR sumdir7" << endl;
     return -1;
     break;
   }
@@ -485,7 +487,7 @@ int Eval::sumdir8(BitBoard *board,int direction)
     break;
 
   default:
-    printf("ERROR sumdir8");
+    cout << "ERROR sumdir8" << endl;
     return -1;
     break;
   }
@@ -543,7 +545,7 @@ int Eval::sumedg(BitBoard *board,int direction)
     break;
 
   default:
-    printf("ERROR sumedg");
+    cout << "ERROR sumedg" << endl;
     return -1;
     break;
   }
@@ -601,7 +603,7 @@ int Eval::sumcor(BitBoard *board,int direction)
     break;
 
   default:
-    printf("ERROR sumcor");
+    cout << "ERROR sumcor" << endl;
     return 0;
     break;
   }
@@ -674,7 +676,7 @@ void Eval::openeval()
   d4 = fopen("eval/d4.txt","r");
   if(d4 == NULL) {
       initArray(81,dir4);
-      printf("eval/d4.txt を開けませんでした\n");
+      cout << "eval/d4.txt を開けませんでした" << endl;
   } 
   else
   {
@@ -687,7 +689,7 @@ void Eval::openeval()
   d5 = fopen("eval/d5.txt","r");
   if(d5 == NULL) {
       initArray(243,dir5); 
-      printf("eval/d5.txt を開けませんでした\n");
+      cout << "eval/d5.txt を開けませんでした" << endl;
   }
   else
   {
@@ -700,7 +702,7 @@ void Eval::openeval()
   d6 = fopen("eval/d6.txt","r");
   if(d6 == NULL) {
       initArray(729,dir6); 
-      printf("eval/d6.txt を開けませんでした\n");
+      cout << "eval/d6.txt を開けませんでした" << endl;
   }
   else
   {
@@ -713,7 +715,7 @@ void Eval::openeval()
   d7 = fopen("eval/d7.txt","r");
   if(d7 == NULL) {
       initArray(2187,dir7); 
-      printf("eval/d7.txt を開けませんでした\n");
+      cout << "eval/d7.txt を開けませんでした" << endl;
   }
   else
   {
@@ -726,7 +728,7 @@ void Eval::openeval()
   d8 = fopen("eval/d8.txt","r");
   if(d8 == NULL) {
       initArray(6561,dir8); 
-      printf("eval/d8.txt を開けませんでした\n");
+      cout << "eval/d8.txt を開けませんでした" << endl;
   }
   else
   {
@@ -739,7 +741,7 @@ void Eval::openeval()
   h2 = fopen("eval/h2.txt","r");
   if(h2 == NULL) {
       initArray(6561,hor2); 
-      printf("eval/h2.txt を開けませんでした\n");
+      cout << "eval/h2.txt を開けませんでした" << endl;
   }
   else
   {
@@ -752,7 +754,7 @@ void Eval::openeval()
   h3 = fopen("eval/h3.txt","r");
   if(h3 == NULL) {
       initArray(6561,hor3); 
-      printf("eval/h3.txt を開けませんでした\n");
+      cout << "eval/h3.txt を開けませんでした" << endl;
   }
   else
   {
@@ -765,7 +767,7 @@ void Eval::openeval()
   h4 = fopen("eval/h4.txt","r");
   if(h4 == NULL) {
       initArray(6561,hor4); 
-      printf("eval/h4.txt を開けませんでした\n");
+      cout << "eval/h4.txt を開けませんでした" << endl;
   }
   else
   {
@@ -778,7 +780,7 @@ void Eval::openeval()
   cr = fopen("eval/cr.txt","r");
   if(cr == NULL) {
       initArray(6561,cor); 
-      printf("eval/cr.txt を開けませんでした\n");
+      cout << "eval/cr.txt を開けませんでした" << endl;
   }
   else
   {
@@ -791,7 +793,7 @@ void Eval::openeval()
   eg = fopen("eval/eg.txt","r");
   if(eg == NULL) {
       initArray(6561,edg); 
-      printf("eval/eg.txt を開けませんでした\n");
+      cout << "eval/eg.txt を開けませんでした" << endl;
   }
   else
   {
@@ -820,20 +822,20 @@ void Eval::initArray(int n,int *eval)
 void Eval::showBitboard(BitBoard *board)
 {
     int i;
-    printf("SENTE\n");
+    cout << "SENTE" << endl;
     for(i=0;i<64;i++)
     {
-        if((board->black>>(63-i)&1) ==1) printf("o");
-        else printf("-");
+        if((board->black>>(63-i)&1) ==1) cout << "o";
+        else cout << "-";
     }
-    printf("\n");
-    printf("GOTE\n");
+    cout << endl;
+    cout << "GOTE" << endl;
     for(i=0;i<64;i++)
     {
-        if((board->white>>(63-i)&1) ==1) printf("o");
-        else printf("-");
+        if((board->white>>(63-i)&1) ==1) cout << "o";
+        else cout << "-";
     }
-    printf("\n");
+    cout << endl;
 }
 
 uint64_t Eval::evalPos(uint64_t legalboard,BitBoard *board)
@@ -843,30 +845,30 @@ uint64_t Eval::evalPos(uint64_t legalboard,BitBoard *board)
   int index,num,count=0;
   int *sum;
   num = Othero::bitCount(legalboard);
-  printf("num=%d\n",num);
+  cout << "num=" << num << endl;
   sum = (int *)malloc(sizeof(int)*num);
-  printf("legalboard=%llu\n",legalboard);
+  cout << "legalboard=" << legalboard << endl;
   for ( i = 0; i < 64; i++)
   {
     if(legalboard&((uint64_t)(1)<<i))
     {
       temp = Othero::vput(legalboard&((uint64_t)(1)<<i),board);
       sum[count] = sumeval(&temp);
-      //printf("評価値=%d\n",sum[count]);
+      //cout << "評価値=" << sum[count] << endl;
       count++;
     }
   }
   if (board->teban == SENTE) index = max(sum,num);
   else index = min(sum,num);
   count=0;
-  //printf("index=%d\n",index);
-  printf("評価値(先手視点) = %d\n",sum[index]);
+  //cout << "index=" << index << endl;
+  cout << "評価値(先手視点) = " << sum[index] << endl;
   free(sum);
   for(i=0;i<64;i++)
   {
     if(legalboard&((uint64_t)(1)<<i))
     {
-      //printf("i = %d\n",i);
+      //cout << "i = " << i endl;
       if(index==count) return (uint64_t)(1)<<i;
       else count++;
     }

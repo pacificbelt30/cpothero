@@ -1,3 +1,4 @@
+#include<iostream>
 #include<stdio.h>
 #include<stdint.h>
 #include<stdlib.h>
@@ -9,6 +10,7 @@
 #include "./eval.h"
 #include "./engine/rand_ai.h"
 #include "./engine/one.h"
+using namespace std;
 
 
 //追加
@@ -37,25 +39,25 @@ void Learn::generateKif(int n)
   BitBoard board;
   FILE *fp;
   fp = fopen("kif/100.txt","w");
-  printf("ファイルを開く\n");
+  cout << "ファイルを開く" << endl;
   //createtable();//最右端ビット用テーブルの初期化
   if (fp==NULL)
   {
-    printf("ファイルを開けませんでした\n");
+    cout << "ファイルを開けませんでした" << endl;
     return ;
   }
-  printf("対局数書き込み\n");
+  cout << "対局数書き込み" << endl;
   fprintf(fp,"%d \n",n);
   //fprintf(fp,"対局数 %d \n",n);
   //n回対局
   for(taikyoku = 0;taikyoku<n;taikyoku++)
   {
     //usleep(1);
-    printf("初期化\n");
+    cout << "初期化" << endl;
     Othero::init(&board);
     count=0;
     //fprintf(fp,"第%d局目",taikyoku+1);
-    printf("第%d局",taikyoku+1);
+    cout << "第"<< taikyoku + 1 << "局" << endl;
     for ( i = 0; i < 64; i++)
     {
       kif[i]=0;
@@ -69,7 +71,7 @@ void Learn::generateKif(int n)
         resu=(board.teban)*solver(board);
         fprintf(fp,"%d ",resu);
         //fprintf(fp,"石差 %d ",resu);
-        printf("石差%d\n",resu);
+        cout << "石差" << resu << endl;
         for(i=0;i<64;i++)
         {
           fprintf(fp,"%d ",kif[i]);
@@ -81,7 +83,7 @@ void Learn::generateKif(int n)
       if (board.teban==SENTE)
       {
         //ai側
-        printf("sente\n");
+        cout << "sente" << endl;
         fflush(stdout);
         legal=Othero::canReverse(&board);
         if(!legal){
@@ -105,7 +107,7 @@ void Learn::generateKif(int n)
       else
       {
         //ai側
-        printf("gote\n");
+        cout << "gote" << endl;
         fflush(stdout);
         legal=Othero::canReverse(&board);
         if(!legal){
@@ -128,13 +130,13 @@ void Learn::generateKif(int n)
       }
     
       count++;
-      printf("%d手\n",count);
+      cout << count << "手" << endl;
     }
     resu=(board.teban)*Solve::solver(board);
     //resu = bitCount( board.black) - bitCount(board.white);
     fprintf(fp,"%d ",resu);
     //fprintf(fp,"石差 %d ",resu);
-    printf("石差%d\n",resu);
+    cout << "石差" << resu << endl;
     for(i=0;i<64;i++)
     {
       fprintf(fp,"%d ",kif[i]);
@@ -205,7 +207,7 @@ void Learn::learning()
   */
   openeval();
 
-  printf("評価関数初期化\n");
+  cout << "評価関数初期化" << endl;
   fflush(stdout);
 
 
@@ -230,16 +232,16 @@ void Learn::learning()
   eg = fopen("eval/eg.txt","w");
   if(eg == NULL) return ;
 
-  printf("ファイルを開いた\n");
+  cout << "ファイルを開いた" << endl;
   fflush(stdout);
   fscanf(fp,"%d",&taikyoku);
-  printf("対局数を読み取る\n");
+  cout << "対局数を読み取る" << endl;
   fflush(stdout);
   kif = makeKifArray(taikyoku);
-  printf("kifポインタ\n");
+  cout << "kifポインタ" << endl;
   fflush(stdout);
   sekisa = (int *)malloc((sizeof(int)*taikyoku));
-  printf("このあと入力\n");
+  cout << "このあと入力" << endl;
   fflush(stdout);
   for(i=0;i<taikyoku;i++)
   {
@@ -250,16 +252,16 @@ void Learn::learning()
     }
   }
 
-  printf("入力終了\n");
+  cout << "入力終了" << endl;
   fflush(stdout);
   Othero::init(&board);
 
-  printf("board初期化\n");
+  cout << "board初期化" << endl;
   fflush(stdout);
 //segmentaion fault
   for ( i = 0; i < taikyoku; i++)
   {
-    printf("第%d局\n",i);
+    cout << "第" << i << "局" << endl;
     Othero::init(&board);
     for (j = 0; j < 64; j++)
     {
@@ -267,10 +269,10 @@ void Learn::learning()
       {//SENTE
         //put(kif[i][j],&board);
         if(kif[i][j]!=0) Othero::put((uint64_t)1<<(kif[i][j]-1),&board);//uint64_tじゃない
-        printf("DEBUG BEFORE UPDATE\n");
+        cout << "DEBUG BEFORE UPDATE" << endl;
         updateeval((int)(rate*((double)(-sumeval(&board)+1000*sekisa[i]))),&board);
 
-        printf("SEKISA = %d : SUMEVAL =  %d \n",sekisa[i],sumeval(&board));
+        cout << "SEKISA = " << sekisa[i] << " : SUMEVAL =  " << sumeval(&board) << endl;
         board.teban=GOTE;
         showBitboard(&board);
         fflush(stdout);
@@ -279,11 +281,11 @@ void Learn::learning()
       {//GOTE
         //put(kif[i][j],&board);
         if(kif[i][j]!=0) Othero::put((uint64_t)1<<(kif[i][j]-1),&board);//uint64_tじゃない
-        printf("DEBUG BEFORE UPDATE\n");
+        cout << "DEBUG BEFORE UPDATE" << endl;
         //updateeval((int)((-1)*rate*((double)(-sumeval(&board)+1000*sekisa[i]))),&board);
         updateeval((int)(rate*((double)(-sumeval(&board)+1000*sekisa[i]))),&board);
         board.teban=SENTE;
-        printf("SEKISA = %d : SUMEVAL =  %d\n",sekisa[i],sumeval(&board));
+        cout << "SEKISA = " << sekisa[i] << " : SUMEVAL =  " << sumeval(&board) << endl;
         showBitboard(&board);
         fflush(stdout);
       }
@@ -293,19 +295,19 @@ void Learn::learning()
   }
   
 
-  printf("解析終了\n");
+  cout << "解析終了" << endl;
   fflush(stdout);
   free(sekisa);
-  printf("free 石差終わり\n");
+  cout << "free 石差終わり" << endl;
   fflush(stdout);
   for ( i = 0; i < taikyoku; i++)
   {
     free(kif[i]);
   }
-  printf("free終わり\n");
+  cout << "free終わり" << endl;
   fflush(stdout);
   free(kif);
-  printf("書き込み開始終わり\n");
+  cout << "書き込み開始終わり" << endl;
   fflush(stdout);
   
   writeeval(h2,6561,hor2); 

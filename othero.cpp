@@ -4,12 +4,14 @@
 ビットボード
 置く処理
 */
+#include<iostream>
 #include<stdio.h>
 #include<stdint.h>
 #include<stdlib.h>
 #include<time.h>
 #include <unistd.h>
 #include"./othero.h"
+using namespace std;
 
 //Othero::Othero(){};
 //Othero::~Othero(){};
@@ -35,32 +37,32 @@ void Othero::init(BitBoard *board){
 
 void Othero::show(BitBoard *board){
   int i,j;
-  printf(" a b c d e f g h\n");
-  printf(" ＿＿＿＿＿＿＿＿\n");
+  cout << " a b c d e f g h" << endl;
+  cout << " ＿＿＿＿＿＿＿＿" << endl;
   for ( i = 0; i < 8; i++)
   {
-    printf("|");
+    cout << "|";
     //一列出力
     for ( j = 0; j < 8; j++)
     {
       if (((uint64_t)1<<(63-(i*8+j))& board->black)!=0)
       {
-        printf("o ");
+        cout << "o ";
       }
       else if (((uint64_t)1<<(63-(i*8+j))& board->white)!=0)
       {
-        printf("x ");
+        cout << "x ";
       }
       else
       {
-        printf("- ");
+        cout << "- ";
       }
        
     }
-    printf("| %d\n",i+1);
+    cout << "| " << i+1 << endl;
   }
   
-  printf(" ＿＿＿＿＿＿＿＿\n");
+  cout << " ＿＿＿＿＿＿＿＿" << endl;
   fflush(stdout);
 }
 
@@ -193,7 +195,7 @@ uint64_t Othero::canReverse(BitBoard *board)
     
   }
   //学習時に邪魔なので切る
-  //printf("legel = %llu\n",bitCount(legalboard));//合法手の盤面
+  //cout << "legel = " << bitCount(legalboard) << endl;//合法手の盤面
   return legalboard;
 }
 
@@ -267,16 +269,16 @@ uint64_t Othero::put(uint64_t pos,BitBoard *board)
 //結果表示
 void Othero::result(BitBoard *board)
 {
-  printf("黒石%d個\n",bitCount(board->black));
-  printf("白石%d個\n",bitCount(board->white));
+  cout << "黒石 " << bitCount(board->black) << "個" << endl;
+  cout << "白石 " << bitCount(board->white) << "個" << endl;
   //printf("黒石%d個\n",bitCount(board->black)-bitCount(board->white));
   if (bitCount(board->black) >= bitCount(board->white) )
   {
-    printf("黒番 %d石差で勝ち\n",bitCount(board->black)-bitCount(board->white));
+    cout << "黒番 " << bitCount(board->black)-bitCount(board->white) << "石差で勝ち" << endl;
   }
   else
   {
-    printf("白番 %d石差で勝ち\n",bitCount(board->white)-bitCount(board->black));
+    cout << "白番 " << bitCount(board->white)-bitCount(board->black) << "石差で勝ち" << endl;
   }
   
   
@@ -284,12 +286,12 @@ void Othero::result(BitBoard *board)
 uint64_t Othero::inputPos() {
   char retu;
   int gyo;
-  printf("座標の入力(例：e3)\n");
+  cout << "座標の入力(例：e3)" << endl;
   fflush(stdout);
   scanf("%c%d",&retu,&gyo);
   if('a' > retu || retu > 'h') return inputPos();
   else if(1 > gyo || gyo > 8) return inputPos();
-  //printf("%llu\n",((uint64_t)1<<((7-(int)(retu-'a'))+8*(8-gyo))));
+  //cout << ((uint64_t)1<<((7-(int)(retu-'a'))+8*(8-gyo))) << endl;
   return ((uint64_t)1<<((7-(int)(retu-'a'))+8*(8-gyo)));
 }
 

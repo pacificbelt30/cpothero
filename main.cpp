@@ -1,3 +1,4 @@
+#include<iostream>
 #include<stdio.h>
 #include<stdint.h>
 #include<stdlib.h>
@@ -9,6 +10,7 @@
 #include"./engine/rand_ai.h"
 #include"./engine/one.h"
 //#include"./solve.h"
+using namespace std;
 
 /*
 棋譜のフォーマット
@@ -44,7 +46,7 @@ corner
 int main(){
   /*
   int te;
-  printf("先後を選択(先手は-1，後手は1)\n");
+  cout << "先後を選択(先手は-1，後手は1)" << endl;
   fflush(stdout);
   scanf("%d",&te);
   //randAi(te);
@@ -62,17 +64,17 @@ int main(){
   board.teban=SENTE;
   */
   /*
-  printf("%d\n",othero.checkLeagal(board));
-  printf("%llu\n",othero.canReverse(&board));
-  printf("初手合法手%llu\n",othero.bitCount(othero.canReverse(&board)));
+  cout << othero.checkLeagal(board) << endl;
+  cout << othero.canReverse(&board) << endl;
+  cout << "初手合法手" << othero.bitCount(othero.canReverse(&board)) << endl;
   othero.inverseTEBAN(&board);
-  printf("%d\n",board.teban);
+  cout << "TEBAN" << board.teban << endl;
   othero.inverseTEBAN(&board);
-  printf("%d\n",board.teban);
+  cout << "TEBAN" << board.teban << endl;
   */
-  //printf("結果%d\n",solver(board));  
-  //printf("結果%d\n",solverMM(board));  
-  //printf("結果%d\n",(int)(BLACK&WHITE));
+  //cout << "結果" << solver(board) << endl;
+  //cout << "結果" << solverMM(board) << endl;
+  //cout << "結果" << (int)(BLACK&WHITE) << endl;
   //openeval();
   srand((unsigned int)time(NULL)); // 現在時刻の情報で初期化
   /*

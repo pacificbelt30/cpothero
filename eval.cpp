@@ -8,6 +8,7 @@
 #include<string>
 #include"./othero.h"
 #include"./eval.h"
+#include"./env.h"
 #include "./engine/one.h"
 using namespace std;
 /*
@@ -144,7 +145,7 @@ int Eval::sumhor2(BitBoard *board,int direction)
     break;
 
   default:
-    cout << "ERROR sumhor2" << endl;
+    if(DEBUG_MODE) cout << "ERROR sumhor2" << endl;
     return -1;
     break;
   }
@@ -202,7 +203,7 @@ int Eval::sumhor3(BitBoard *board,int direction)
     break;
 
   default:
-    cout << "ERROR sumhor3" << endl;
+    if(DEBUG_MODE) cout << "ERROR sumhor3" << endl;
     return -1;
     break;
   }
@@ -260,7 +261,7 @@ int Eval::sumhor4(BitBoard *board,int direction)
     break;
 
   default:
-    cout << "ERROR sumhor4" << endl;
+    if(DEBUG_MODE) cout << "ERROR sumhor4" << endl;
     return -1;
     break;
   }
@@ -302,7 +303,7 @@ int Eval::sumdir4(BitBoard *board,int direction)
     break;
 
   default:
-    cout << "ERROR sumdir4" << endl;
+    if(DEBUG_MODE) cout << "ERROR sumdir4" << endl;
     return -1;
     break;
   }
@@ -348,7 +349,7 @@ int Eval::sumdir5(BitBoard *board,int direction)
     break;
 
   default:
-    cout << "ERROR sumdir5" << endl;
+    if(DEBUG_MODE) cout << "ERROR sumdir5" << endl;
     return -1;
     break;
   }
@@ -398,7 +399,7 @@ int Eval::sumdir6(BitBoard *board,int direction)
     break;
 
   default:
-    cout << "ERROR sumdir6" << endl;
+    if(DEBUG_MODE) cout << "ERROR sumdir6" << endl;
     return -1;
     break;
   }
@@ -452,7 +453,7 @@ int Eval::sumdir7(BitBoard *board,int direction)
     break;
 
   default:
-    cout << "ERROR sumdir7" << endl;
+    if(DEBUG_MODE) cout << "ERROR sumdir7" << endl;
     return -1;
     break;
   }
@@ -488,7 +489,7 @@ int Eval::sumdir8(BitBoard *board,int direction)
     break;
 
   default:
-    cout << "ERROR sumdir8" << endl;
+    if(DEBUG_MODE) cout << "ERROR sumdir8" << endl;
     return -1;
     break;
   }
@@ -546,7 +547,7 @@ int Eval::sumedg(BitBoard *board,int direction)
     break;
 
   default:
-    cout << "ERROR sumedg" << endl;
+    if(DEBUG_MODE) cout << "ERROR sumedg" << endl;
     return -1;
     break;
   }
@@ -604,7 +605,7 @@ int Eval::sumcor(BitBoard *board,int direction)
     break;
 
   default:
-    cout << "ERROR sumcor" << endl;
+    if(DEBUG_MODE) cout << "ERROR sumcor" << endl;
     return 0;
     break;
   }
@@ -677,7 +678,7 @@ void Eval::openeval()
   d4 = fopen("eval/d4.txt","r");
   if(d4 == NULL) {
       initArray(81,dir4);
-      cout << "eval/d4.txt を開けませんでした" << endl;
+      if(DEBUG_MODE) cout << "eval/d4.txt を開けませんでした" << endl;
   } 
   else
   {
@@ -690,7 +691,7 @@ void Eval::openeval()
   d5 = fopen("eval/d5.txt","r");
   if(d5 == NULL) {
       initArray(243,dir5); 
-      cout << "eval/d5.txt を開けませんでした" << endl;
+      if(DEBUG_MODE) cout << "eval/d5.txt を開けませんでした" << endl;
   }
   else
   {
@@ -703,7 +704,7 @@ void Eval::openeval()
   d6 = fopen("eval/d6.txt","r");
   if(d6 == NULL) {
       initArray(729,dir6); 
-      cout << "eval/d6.txt を開けませんでした" << endl;
+      if(DEBUG_MODE) cout << "eval/d6.txt を開けませんでした" << endl;
   }
   else
   {
@@ -716,7 +717,7 @@ void Eval::openeval()
   d7 = fopen("eval/d7.txt","r");
   if(d7 == NULL) {
       initArray(2187,dir7); 
-      cout << "eval/d7.txt を開けませんでした" << endl;
+      if(DEBUG_MODE) cout << "eval/d7.txt を開けませんでした" << endl;
   }
   else
   {
@@ -729,7 +730,7 @@ void Eval::openeval()
   d8 = fopen("eval/d8.txt","r");
   if(d8 == NULL) {
       initArray(6561,dir8); 
-      cout << "eval/d8.txt を開けませんでした" << endl;
+      if(DEBUG_MODE) cout << "eval/d8.txt を開けませんでした" << endl;
   }
   else
   {
@@ -742,7 +743,7 @@ void Eval::openeval()
   h2 = fopen("eval/h2.txt","r");
   if(h2 == NULL) {
       initArray(6561,hor2); 
-      cout << "eval/h2.txt を開けませんでした" << endl;
+      if(DEBUG_MODE) cout << "eval/h2.txt を開けませんでした" << endl;
   }
   else
   {
@@ -755,7 +756,7 @@ void Eval::openeval()
   h3 = fopen("eval/h3.txt","r");
   if(h3 == NULL) {
       initArray(6561,hor3); 
-      cout << "eval/h3.txt を開けませんでした" << endl;
+      if(DEBUG_MODE) cout << "eval/h3.txt を開けませんでした" << endl;
   }
   else
   {
@@ -768,7 +769,7 @@ void Eval::openeval()
   h4 = fopen("eval/h4.txt","r");
   if(h4 == NULL) {
       initArray(6561,hor4); 
-      cout << "eval/h4.txt を開けませんでした" << endl;
+      if(DEBUG_MODE) cout << "eval/h4.txt を開けませんでした" << endl;
   }
   else
   {
@@ -781,7 +782,7 @@ void Eval::openeval()
   cr = fopen("eval/cr.txt","r");
   if(cr == NULL) {
       initArray(6561,cor); 
-      cout << "eval/cr.txt を開けませんでした" << endl;
+      if(DEBUG_MODE) cout << "eval/cr.txt を開けませんでした" << endl;
   }
   else
   {
@@ -794,7 +795,7 @@ void Eval::openeval()
   eg = fopen("eval/eg.txt","r");
   if(eg == NULL) {
       initArray(6561,edg); 
-      cout << "eval/eg.txt を開けませんでした" << endl;
+      if(DEBUG_MODE) cout << "eval/eg.txt を開けませんでした" << endl;
   }
   else
   {
@@ -822,21 +823,22 @@ void Eval::initArray(int n,int *eval)
 //Debug用
 void Eval::showBitboard(BitBoard *board)
 {
-    int i;
-    cout << "SENTE" << endl;
-    for(i=0;i<64;i++)
-    {
-        if((board->black>>(63-i)&1) ==1) cout << "o";
-        else cout << "-";
-    }
-    cout << endl;
-    cout << "GOTE" << endl;
-    for(i=0;i<64;i++)
-    {
-        if((board->white>>(63-i)&1) ==1) cout << "o";
-        else cout << "-";
-    }
-    cout << endl;
+  if(DEBUG_MODE) return;
+  int i;
+  cout << "SENTE" << endl;
+  for(i=0;i<64;i++)
+  {
+      if((board->black>>(63-i)&1) ==1) cout << "o";
+      else cout << "-";
+  }
+  cout << endl;
+  cout << "GOTE" << endl;
+  for(i=0;i<64;i++)
+  {
+      if((board->white>>(63-i)&1) ==1) cout << "o";
+      else cout << "-";
+  }
+  cout << endl;
 }
 
 uint64_t Eval::evalPos(uint64_t legalboard,BitBoard *board)
@@ -846,30 +848,30 @@ uint64_t Eval::evalPos(uint64_t legalboard,BitBoard *board)
   int index,num,count=0;
   int *sum;
   num = Othero::bitCount(legalboard);
-  cout << "num=" << num << endl;
+  if(DEBUG_MODE) cout << "num=" << num << endl;
   sum = (int *)malloc(sizeof(int)*num);
-  cout << "legalboard=" << legalboard << endl;
+  if(DEBUG_MODE) cout << "legalboard=" << legalboard << endl;
   for ( i = 0; i < 64; i++)
   {
     if(legalboard&((uint64_t)(1)<<i))
     {
       temp = Othero::vput(legalboard&((uint64_t)(1)<<i),board);
       sum[count] = sumeval(&temp);
-      //cout << "評価値=" << sum[count] << endl;
+      //if(DEBUG_MODE) cout << "評価値=" << sum[count] << endl;
       count++;
     }
   }
   if (board->teban == SENTE) index = max(sum,num);
   else index = min(sum,num);
   count=0;
-  //cout << "index=" << index << endl;
-  cout << "評価値(先手視点) = " << sum[index] << endl;
+  //if(DEBUG_MODE) cout << "index=" << index << endl;
+  if(DEBUG_MODE) cout << "評価値(先手視点) = " << sum[index] << endl;
   free(sum);
   for(i=0;i<64;i++)
   {
     if(legalboard&((uint64_t)(1)<<i))
     {
-      //cout << "i = " << i endl;
+      //if(DEBUG_MODE) cout << "i = " << i endl;
       if(index==count) return (uint64_t)(1)<<i;
       else count++;
     }

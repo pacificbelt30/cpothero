@@ -4,6 +4,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include <unistd.h>
+#include "./env.h"
 //#include"./eval.h"
 #include"./othero.h"
 //#include"./learn.h"
@@ -81,8 +82,8 @@ int main(){
   generateKif(100);//引数に作成する対局数
   learning();//学習用
   */
-  //RandAIEngine *e = new RandAIEngine();
-  One *e = new One();
-  e->recieve();
+  // ENGINE e = new ENGINE();
+  ENGINE e;
+  e.recieve();
   return 0;
 }

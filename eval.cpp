@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<filesystem>
 #include<stdio.h>
 #include<stdint.h>
 #include<stdlib.h>
@@ -675,6 +676,9 @@ void Eval::openeval()
   int i;
   FILE *d4,*d5,*d6,*d7,*d8,*h2,*h3,*h4,*cr,*eg;
 
+  // std::filesystem::path path = std::filesystem::current_path();
+  // std::ifstream ifs(path.string().c_str());
+  // ifs >> path;
   d4 = fopen("eval/d4.txt","r");
   if(d4 == NULL) {
       initArray(81,dir4);

@@ -1,6 +1,13 @@
 #include<iostream>
 #include<fstream>
+#ifdef __linux__
 #include<filesystem>
+#define getExecDirectoryName() std::filesystem::read_symlink("/proc/self/exe").remove_filename().string()
+#endif
+#ifdef _WIN64
+#include<windows.h>
+#define getExecDirectoryName() std::filesystem::read_symlink("/proc/self/exe")
+#endif
 #include<stdio.h>
 #include<stdint.h>
 #include<stdlib.h>
@@ -674,13 +681,25 @@ void Eval::openeval()
   int i;
   FILE *d4,*d5,*d6,*d7,*d8,*h2,*h3,*h4,*cr,*eg;
 
+  string dirpath = getExecDirectoryName() + "eval/";
+  cout << dirpath << endl;
+  cout << (dirpath+"d4.txt").c_str() << endl;
   std::filesystem::path path = std::filesystem::current_path();
-  cout << path.string();
-  cout << path.string().c_str();
-  string tmp = path.string() + "/eval/d4.txt";
+  cout << path.string().c_str() << endl;
+  string tmp = dirpath + "d4.txt";
+  char prg_name[64];
+  char prg_path[256];
+  readlink("/proc/self/exe",prg_path, sizeof(prg_path));
+  //std::filesystem::path result = std::filesystem::read_symlink("/proc/self/exe");
+  string result = getExecDirectoryName();
+  cout << prg_path << endl;
+  //cout << result.remove_filename().string() << endl;
+  cout << result << endl;
   cout << tmp << endl;
   std::ifstream ifs(tmp.c_str());
-  //ifs >> path;
+  int a;
+  ifs >> a;
+  cout << a << endl;
   d4 = fopen("eval/d4.txt","r");
   if(d4 == NULL) {
       initArray(81,dir4);

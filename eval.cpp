@@ -680,30 +680,12 @@ void Eval::openeval()
 {
   int i;
   //FILE *d4,*d5,*d6,*d7,*d8,*h2,*h3,*h4,*cr,*eg;
-  FILE *d5,*d6,*d7,*d8,*h2,*h3,*h4,*cr,*eg;
+  ifstream d4,d5,d6,d7,d8,h2,h3,h4,cr,eg;
 
   string dirpath = getExecDirectoryName() + "eval/";
-  cout << dirpath << endl;
-  cout << (dirpath+"d4.txt").c_str() << endl;
-  std::filesystem::path path = std::filesystem::current_path();
-  cout << path.string().c_str() << endl;
-  string tmp = dirpath + "d4.txt";
-  char prg_name[64];
-  char prg_path[256];
-  readlink("/proc/self/exe",prg_path, sizeof(prg_path));
-  //std::filesystem::path result = std::filesystem::read_symlink("/proc/self/exe");
-  string result = getExecDirectoryName();
-  cout << prg_path << endl;
-  //cout << result.remove_filename().string() << endl;
-  cout << result << endl;
-  cout << tmp << endl;
-  std::ifstream ifs(tmp.c_str());
-  int a;
-  ifs >> a;
-  cout << a << endl;
-  std::ifstream d4((dirpath+"d4.txt").c_str());
-  //d4 = fopen("eval/d4.txt","r");
-  if(d5 == NULL) {
+
+  d4.open((dirpath+"d4.txt").c_str());
+  if(!d4) {
       initArray(81,dir4);
       if(DEBUG_MODE) cout << "eval/d4.txt を開けませんでした" << endl;
   } 
@@ -711,14 +693,14 @@ void Eval::openeval()
   {
       for(i=0;i<81;i++)
       {
-        //fscanf(d4,"%d",&dir4[i]);
         d4 >> dir4[i];
         if(DEBUG_MODE) cout << dir4[i] << endl;
       }
+      d4.close();
   }
 
-  d5 = fopen("eval/d5.txt","r");
-  if(d5 == NULL) {
+  d5.open((dirpath+"d5.txt").c_str());
+  if(!d5) {
       initArray(243,dir5); 
       if(DEBUG_MODE) cout << "eval/d5.txt を開けませんでした" << endl;
   }
@@ -726,12 +708,14 @@ void Eval::openeval()
   {
       for(i=0;i<243;i++)
       {
-        fscanf(d5,"%d",&dir5[i]);
+        d5 >> dir5[i];
+        if(DEBUG_MODE) cout << dir5[i] << endl;
       }
+      d5.close();
   }
 
-  d6 = fopen("eval/d6.txt","r");
-  if(d6 == NULL) {
+  d6.open((dirpath+"d6.txt").c_str());
+  if(!d6) {
       initArray(729,dir6); 
       if(DEBUG_MODE) cout << "eval/d6.txt を開けませんでした" << endl;
   }
@@ -739,12 +723,14 @@ void Eval::openeval()
   {
       for(i=0;i<729;i++)
       {
-        fscanf(d6,"%d",&dir6[i]);
+        d6 >> dir6[i];
+        if(DEBUG_MODE) cout << dir6[i] << endl;
       }
+      d6.close();
   }
 
-  d7 = fopen("eval/d7.txt","r");
-  if(d7 == NULL) {
+  d7.open((dirpath+"d7.txt").c_str());
+  if(!d7) {
       initArray(2187,dir7); 
       if(DEBUG_MODE) cout << "eval/d7.txt を開けませんでした" << endl;
   }
@@ -752,12 +738,14 @@ void Eval::openeval()
   {
       for(i=0;i<2187;i++)
       {
-        fscanf(d7,"%d",&dir7[i]);
+        d7 >> dir7[i];
+        if(DEBUG_MODE) cout << dir7[i] << endl;
       }
+      d7.close();
   }
 
-  d8 = fopen("eval/d8.txt","r");
-  if(d8 == NULL) {
+  d8.open((dirpath+"d8.txt").c_str());
+  if(!d8) {
       initArray(6561,dir8); 
       if(DEBUG_MODE) cout << "eval/d8.txt を開けませんでした" << endl;
   }
@@ -765,12 +753,14 @@ void Eval::openeval()
   {
       for(i=0;i<6561;i++)
       {
-        fscanf(d8,"%d",&dir8[i]);
+        d8 >> dir8[i];
+        if(DEBUG_MODE) cout << dir8[i] << endl;
       }
+      d8.close();
   }
 
-  h2 = fopen("eval/h2.txt","r");
-  if(h2 == NULL) {
+  h2.open((dirpath+"h2.txt").c_str());
+  if(!h2) {
       initArray(6561,hor2); 
       if(DEBUG_MODE) cout << "eval/h2.txt を開けませんでした" << endl;
   }
@@ -778,12 +768,14 @@ void Eval::openeval()
   {
       for(i=0;i<6561;i++)
       {
-        fscanf(h2,"%d",&hor2[i]);
+        h2 >> hor2[i];
+        if(DEBUG_MODE) cout << hor2[i] << endl;
       }
+      h2.close();
   }
 
-  h3 = fopen("eval/h3.txt","r");
-  if(h3 == NULL) {
+  h3.open((dirpath+"h3.txt").c_str());
+  if(!h3) {
       initArray(6561,hor3); 
       if(DEBUG_MODE) cout << "eval/h3.txt を開けませんでした" << endl;
   }
@@ -791,12 +783,14 @@ void Eval::openeval()
   {
       for(i=0;i<6561;i++)
       {
-        fscanf(h3,"%d",&hor3[i]);
+        h3 >> hor3[i];
+        if(DEBUG_MODE) cout << hor3[i] << endl;
       }
+      h3.close();
   }
 
-  h4 = fopen("eval/h4.txt","r");
-  if(h4 == NULL) {
+  h4.open((dirpath+"h4.txt").c_str());
+  if(!h4) {
       initArray(6561,hor4); 
       if(DEBUG_MODE) cout << "eval/h4.txt を開けませんでした" << endl;
   }
@@ -804,12 +798,14 @@ void Eval::openeval()
   {
       for(i=0;i<6561;i++)
       {
-        fscanf(h4,"%d",&hor4[i]);
+        h4 >> hor4[i];
+        if(DEBUG_MODE) cout << hor4[i] << endl;
       }
+      h4.close();
   }
 
-  cr = fopen("eval/cr.txt","r");
-  if(cr == NULL) {
+  cr.open((dirpath+"cr.txt").c_str());
+  if(!cr) {
       initArray(6561,cor); 
       if(DEBUG_MODE) cout << "eval/cr.txt を開けませんでした" << endl;
   }
@@ -817,12 +813,14 @@ void Eval::openeval()
   {
       for(i=0;i<6561;i++)
       {
-        fscanf(cr,"%d",&cor[i]);
+        cr >> cor[i];
+        if(DEBUG_MODE) cout << cor[i] << endl;
       }
+      cr.close();
   }
 
-  eg = fopen("eval/eg.txt","r");
-  if(eg == NULL) {
+  eg.open((dirpath+"eg.txt").c_str());
+  if(!eg) {
       initArray(6561,edg); 
       if(DEBUG_MODE) cout << "eval/eg.txt を開けませんでした" << endl;
   }
@@ -830,8 +828,10 @@ void Eval::openeval()
   {
       for(i=0;i<6561;i++)
       {
-        fscanf(eg,"%d",&edg[i]);
+        eg >> edg[i];
+        if(DEBUG_MODE) cout << edg[i] << endl;
       }
+      eg.close();
   }
 
   return ;

@@ -679,7 +679,8 @@ int Eval::sumeval(BitBoard *board)
 void Eval::openeval()
 {
   int i;
-  FILE *d4,*d5,*d6,*d7,*d8,*h2,*h3,*h4,*cr,*eg;
+  //FILE *d4,*d5,*d6,*d7,*d8,*h2,*h3,*h4,*cr,*eg;
+  FILE *d5,*d6,*d7,*d8,*h2,*h3,*h4,*cr,*eg;
 
   string dirpath = getExecDirectoryName() + "eval/";
   cout << dirpath << endl;
@@ -700,8 +701,9 @@ void Eval::openeval()
   int a;
   ifs >> a;
   cout << a << endl;
-  d4 = fopen("eval/d4.txt","r");
-  if(d4 == NULL) {
+  std::ifstream d4((dirpath+"d4.txt").c_str());
+  //d4 = fopen("eval/d4.txt","r");
+  if(d5 == NULL) {
       initArray(81,dir4);
       if(DEBUG_MODE) cout << "eval/d4.txt を開けませんでした" << endl;
   } 
@@ -709,7 +711,9 @@ void Eval::openeval()
   {
       for(i=0;i<81;i++)
       {
-        fscanf(d4,"%d",&dir4[i]);
+        //fscanf(d4,"%d",&dir4[i]);
+        d4 >> dir4[i];
+        if(DEBUG_MODE) cout << dir4[i] << endl;
       }
   }
 

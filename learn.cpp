@@ -186,10 +186,12 @@ int **Learn::makeKifArray(int n)
 {
   int **kif;
   int i;
-  kif = (int **)malloc(sizeof(int *)*n);
+  // kif = (int **)malloc(sizeof(int *)*n);
+  kif = new int*[n];
   for ( i = 0; i < n; i++)
   {
-    kif[i] = (int *)malloc(sizeof(int)*64);
+    // kif[i] = (int *)malloc(sizeof(int)*64);
+    kif[i] = new int[64];
   }
   return kif;
 }
@@ -258,7 +260,8 @@ void Learn::learning()
   cout << "対局数を読み取る" << endl;
   kif = makeKifArray(taikyoku);
   cout << "kifポインタ" << endl;
-  sekisa = (int *)malloc((sizeof(int)*taikyoku));
+  // sekisa = (int *)malloc((sizeof(int)*taikyoku));
+  sekisa = new int[taikyoku];
   cout << "このあと入力" << endl;
   for(i=0;i<taikyoku;i++)
   {
@@ -309,14 +312,17 @@ void Learn::learning()
   
 
   cout << "解析終了" << endl;
-  free(sekisa);
+  // free(sekisa);
+  delete sekisa;
   cout << "free 石差終わり" << endl;
   for ( i = 0; i < taikyoku; i++)
   {
-    free(kif[i]);
+    // free(kif[i]);
+    delete kif[i];
   }
   cout << "free終わり" << endl;
-  free(kif);
+  // free(kif);
+  delete kif;
   cout << "書き込み開始終わり" << endl;
   
   writeeval(&h2,6561,hor2); 

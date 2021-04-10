@@ -79,30 +79,53 @@ int edg[6561];
 
 Eval::Eval()
 {
-    hor2 = (int*)malloc(6561*sizeof(int)); 
-    hor3 = (int*)malloc(6561*sizeof(int)); 
-    hor4 = (int*)malloc(6561*sizeof(int)); 
-    dir4 = (int*)malloc(81  *sizeof(int)); 
-    dir5 = (int*)malloc(243 *sizeof(int)); 
-    dir6 = (int*)malloc(729 *sizeof(int)); 
-    dir7 = (int*)malloc(2187*sizeof(int)); 
-    dir8 = (int*)malloc(6561*sizeof(int)); 
-    cor  = (int*)malloc(6561*sizeof(int)); 
-    edg  = (int*)malloc(6561*sizeof(int)); 
+    // hor2 = (int*)malloc(6561*sizeof(int)); 
+    // hor3 = (int*)malloc(6561*sizeof(int)); 
+    // hor4 = (int*)malloc(6561*sizeof(int)); 
+    // dir4 = (int*)malloc(81  *sizeof(int)); 
+    // dir5 = (int*)malloc(243 *sizeof(int)); 
+    // dir6 = (int*)malloc(729 *sizeof(int)); 
+    // dir7 = (int*)malloc(2187*sizeof(int)); 
+    // dir8 = (int*)malloc(6561*sizeof(int)); 
+    // cor  = (int*)malloc(6561*sizeof(int)); 
+    // edg  = (int*)malloc(6561*sizeof(int)); 
+
+    hor2 = new int[6561]; 
+    hor3 = new int[6561]; 
+    hor4 = new int[6561]; 
+    dir4 = new int[81  ]; 
+    dir5 = new int[243 ]; 
+    dir6 = new int[729 ]; 
+    dir7 = new int[2187]; 
+    dir8 = new int[6561]; 
+    cor  = new int[6561]; 
+    edg  = new int[6561]; 
+
     openeval();
 }
 Eval::~Eval()
 {
-    free(hor2); 
-    free(hor3); 
-    free(hor4); 
-    free(dir4); 
-    free(dir5); 
-    free(dir6); 
-    free(dir7); 
-    free(dir8); 
-    free(cor); 
-    free(edg); 
+    // free(hor2); 
+    // free(hor3); 
+    // free(hor4); 
+    // free(dir4); 
+    // free(dir5); 
+    // free(dir6); 
+    // free(dir7); 
+    // free(dir8); 
+    // free(cor); 
+    // free(edg); 
+
+    delete hor2; 
+    delete hor3; 
+    delete hor4; 
+    delete dir4; 
+    delete dir5; 
+    delete dir6; 
+    delete dir7; 
+    delete dir8; 
+    delete cor; 
+    delete edg; 
 }
 
 //パターン
@@ -887,7 +910,8 @@ uint64_t Eval::evalPos(uint64_t legalboard,BitBoard *board)
   int *sum;
   num = Othero::bitCount(legalboard);
   if(DEBUG_MODE) cout << "num=" << num << endl;
-  sum = (int *)malloc(sizeof(int)*num);
+  // sum = (int *)malloc(sizeof(int)*num);
+  sum = new int[num];
   if(DEBUG_MODE) cout << "legalboard=" << legalboard << endl;
   for ( i = 0; i < 64; i++)
   {
@@ -904,7 +928,8 @@ uint64_t Eval::evalPos(uint64_t legalboard,BitBoard *board)
   count=0;
   //if(DEBUG_MODE) cout << "index=" << index << endl;
   if(DEBUG_MODE) cout << "評価値(先手視点) = " << sum[index] << endl;
-  free(sum);
+  // free(sum);
+  delete sum;
   for(i=0;i<64;i++)
   {
     if(legalboard&((uint64_t)(1)<<i))

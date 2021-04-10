@@ -1,5 +1,6 @@
 # cpothero
 C++版 cothero
+otheroはothelloのスペルミス
 ## TODO
 - 書き直し
 - プロトコル詰め
@@ -7,3 +8,4 @@ C++版 cothero
 - 静的評価関数
 - キャッシュ
 - ci
+- docker 

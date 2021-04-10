@@ -1,5 +1,13 @@
 #include<iostream>
 #include<fstream>
+#ifdef __linux__
+#include<filesystem>
+#define getExecDirectoryName() std::filesystem::read_symlink("/proc/self/exe").remove_filename().string()
+#endif
+#ifdef _WIN64
+#include<windows.h>
+#define getExecDirectoryName() std::filesystem::read_symlink("/proc/self/exe")
+#endif
 #include<stdio.h>
 #include<stdint.h>
 #include<stdlib.h>
@@ -16,12 +24,12 @@ using namespace std;
 
 //追加
 //NULLチェック済み
-void Learn::writeeval(FILE *fp,int n,int pat[])
+void Learn::writeeval(ofstream *fp,int n,int pat[])
 {
   int i;
   for ( i = 0; i < n; i++)
   {
-    fprintf(fp,"%d ",pat[i]);
+    *fp << pat[i] << " ";
   }
   return;
   
@@ -38,17 +46,17 @@ void Learn::generateKif(int n)
   int resu;
   uint64_t pos,legal;
   BitBoard board;
-  FILE *fp;
-  fp = fopen("kif/100.txt","w");
+  ofstream fp;
+  fp.open("kif/100.txt");
   cout << "ファイルを開く" << endl;
   //createtable();//最右端ビット用テーブルの初期化
-  if (fp==NULL)
+  if (!fp)
   {
     cout << "ファイルを開けませんでした" << endl;
     return ;
   }
   cout << "対局数書き込み" << endl;
-  fprintf(fp,"%d \n",n);
+  fp << n << " \n";
   //fprintf(fp,"対局数 %d \n",n);
   //n回対局
   for(taikyoku = 0;taikyoku<n;taikyoku++)
@@ -85,7 +93,6 @@ void Learn::generateKif(int n)
       {
         //ai側
         cout << "sente" << endl;
-        fflush(stdout);
         legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = GOTE;
@@ -109,7 +116,6 @@ void Learn::generateKif(int n)
       {
         //ai側
         cout << "gote" << endl;
-        fflush(stdout);
         legal=Othero::canReverse(&board);
         if(!legal){
           board.teban = SENTE;
@@ -135,16 +141,16 @@ void Learn::generateKif(int n)
     }
     resu=(board.teban)*Solve::solver(board);
     //resu = bitCount( board.black) - bitCount(board.white);
-    fprintf(fp,"%d ",resu);
+    fp << resu << " ";
     //fprintf(fp,"石差 %d ",resu);
     cout << "石差" << resu << endl;
     for(i=0;i<64;i++)
     {
-      fprintf(fp,"%d ",kif[i]);
+      fp << kif[i] << " ";
     }
-    fprintf(fp,"\n");
+    fp << "\n";
   }
-  fclose(fp);
+  fp.close();
   return;
 }
 
@@ -189,11 +195,14 @@ void Learn::learning()
   int taikyoku;
   int **kif;
   int *sekisa;
-  FILE *fp;
-  FILE *d4,*d5,*d6,*d7,*d8,*h2,*h3,*h4,*cr,*eg;
+  // FILE *fp;
+  // FILE *d4,*d5,*d6,*d7,*d8,*h2,*h3,*h4,*cr,*eg;
+  ifstream fp;
+  ofstream d4,d5,d6,d7,d8,h2,h3,h4,cr,eg;
+  string dirpath = getExecDirectoryName() + "eval/";
 
   //読み込むkifファイル
-  fp = fopen("kif/100.txt","r");
+  fp.open((getExecDirectoryName()+"kif/100.txt").c_str());
 /*
   initArray(6561,hor2); 
   initArray(6561,hor3); 
@@ -209,56 +218,49 @@ void Learn::learning()
   openeval();
 
   cout << "評価関数初期化" << endl;
-  fflush(stdout);
 
-
-  d4 = fopen("eval/d4.txt","w");
-  if(d4 == NULL) return ;
-  d5 = fopen("eval/d5.txt","w");
-  if(d5 == NULL) return ;
-  d6 = fopen("eval/d6.txt","w");
-  if(d6 == NULL) return ;
-  d7 = fopen("eval/d7.txt","w");
-  if(d7 == NULL) return ;
-  d8 = fopen("eval/d8.txt","w");
-  if(d8 == NULL) return ;
-  h2 = fopen("eval/h2.txt","w");
-  if(h2 == NULL) return ;
-  h3 = fopen("eval/h3.txt","w");
-  if(h3 == NULL) return ;
-  h4 = fopen("eval/h4.txt","w");
-  if(h4 == NULL) return ;
-  cr = fopen("eval/cr.txt","w");
-  if(cr == NULL) return ;
-  eg = fopen("eval/eg.txt","w");
-  if(eg == NULL) return ;
+  d4.open((dirpath+"d4.txt").c_str());
+  if(!d4) return;
+  d5.open((dirpath+"d5.txt").c_str());
+  d5.open("d5.txt");
+  if(!d5) return;
+  d6.open((dirpath+"d6.txt").c_str());
+  if(!d6) return;
+  d7.open((dirpath+"d7.txt").c_str());
+  if(!d7) return;
+  d8.open((dirpath+"d8.txt").c_str());
+  if(!d8) return;
+  h2.open((dirpath+"h2.txt").c_str());
+  if(!h2) return;
+  h3.open((dirpath+"h3.txt").c_str());
+  if(!h3) return;
+  h4.open((dirpath+"h4.txt").c_str());
+  if(!h4) return;
+  cr.open((dirpath+"cr.txt").c_str());
+  if(!cr) return;
+  eg.open((dirpath+"eg.txt").c_str());
+  if(!eg) return;
 
   cout << "ファイルを開いた" << endl;
-  fflush(stdout);
-  fscanf(fp,"%d",&taikyoku);
+  fp >> taikyoku;
   cout << "対局数を読み取る" << endl;
-  fflush(stdout);
   kif = makeKifArray(taikyoku);
   cout << "kifポインタ" << endl;
-  fflush(stdout);
   sekisa = (int *)malloc((sizeof(int)*taikyoku));
   cout << "このあと入力" << endl;
-  fflush(stdout);
   for(i=0;i<taikyoku;i++)
   {
-    fscanf(fp,"%d",&sekisa[i]);
+    fp >> sekisa[i] ;
     for(j=0;j<64;j++)
     {
-      fscanf(fp,"%d",&kif[i][j]);
+      fp >> kif[i][j];
     }
   }
 
   cout << "入力終了" << endl;
-  fflush(stdout);
   Othero::init(&board);
 
   cout << "board初期化" << endl;
-  fflush(stdout);
 //segmentaion fault
   for ( i = 0; i < taikyoku; i++)
   {
@@ -276,7 +278,6 @@ void Learn::learning()
         cout << "SEKISA = " << sekisa[i] << " : SUMEVAL =  " << sumeval(&board) << endl;
         board.teban=GOTE;
         showBitboard(&board);
-        fflush(stdout);
       }
       else
       {//GOTE
@@ -288,7 +289,6 @@ void Learn::learning()
         board.teban=SENTE;
         cout << "SEKISA = " << sekisa[i] << " : SUMEVAL =  " << sumeval(&board) << endl;
         showBitboard(&board);
-        fflush(stdout);
       }
       
     }
@@ -297,31 +297,37 @@ void Learn::learning()
   
 
   cout << "解析終了" << endl;
-  fflush(stdout);
   free(sekisa);
   cout << "free 石差終わり" << endl;
-  fflush(stdout);
   for ( i = 0; i < taikyoku; i++)
   {
     free(kif[i]);
   }
   cout << "free終わり" << endl;
-  fflush(stdout);
   free(kif);
   cout << "書き込み開始終わり" << endl;
-  fflush(stdout);
   
-  writeeval(h2,6561,hor2); 
-  writeeval(h3,6561,hor3); 
-  writeeval(h4,6561,hor4); 
-  writeeval(d4,81,dir4); 
-  writeeval(d5,243,dir5); 
-  writeeval(d6,729,dir6); 
-  writeeval(d7,2187,dir7); 
-  writeeval(d8,6561,dir8); 
-  writeeval(cr,6561,cor); 
-  writeeval(eg,6561,edg); 
+  writeeval(&h2,6561,hor2); 
+  writeeval(&h3,6561,hor3); 
+  writeeval(&h4,6561,hor4); 
+  writeeval(&d4,81,dir4); 
+  writeeval(&d5,243,dir5); 
+  writeeval(&d6,729,dir6); 
+  writeeval(&d7,2187,dir7); 
+  writeeval(&d8,6561,dir8); 
+  writeeval(&cr,6561,cor); 
+  writeeval(&eg,6561,edg); 
 
+  h2.close();
+  h3.close();
+  h4.close();
+  d4.close();
+  d5.close();
+  d6.close();
+  d7.close();
+  d8.close();
+  cr.close();
+  eg.close();
   return;
 }
 

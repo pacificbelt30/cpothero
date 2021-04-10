@@ -6,7 +6,16 @@
 #endif
 #ifdef _WIN64
 #include<windows.h>
-#define getExecDirectoryName() std::filesystem::read_symlink("/proc/self/exe")
+auto f = [](){
+  char Path[MAX_PATH+1]; 
+  if(0!=GetModuleFileName( NULL, Path, MAX_PATH )){// 実行ファイルの完全パスを取得
+   char drive[MAX_PATH+1],dir[MAX_PATH+1],fname[MAX_PATH+1],ext[MAX_PATH+1];
+   _splitpath(Path,drive,dir,fname,ext);//パス名を構成要素に分解します
+   return string(drive)+string(dir);
+  }
+  return string("");
+}
+#define getExecDirectoryName() f()
 #endif
 #include<stdio.h>
 #include<stdint.h>

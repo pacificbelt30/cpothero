@@ -6,7 +6,16 @@
 #endif
 #ifdef _WIN64
 #include<windows.h>
-#define getExecDirectoryName() std::filesystem::read_symlink("/proc/self/exe")
+auto f = [](){
+  char Path[MAX_PATH+1]; 
+  if(0!=GetModuleFileName( NULL, Path, MAX_PATH )){// 実行ファイルの完全パスを取得
+   char drive[MAX_PATH+1],dir[MAX_PATH+1],fname[MAX_PATH+1],ext[MAX_PATH+1];
+   _splitpath(Path,drive,dir,fname,ext);//パス名を構成要素に分解します
+   return string(drive)+string(dir);
+  }
+  return string("");
+}
+#define getExecDirectoryName() f()
 #endif
 #include<stdio.h>
 #include<stdint.h>
@@ -47,7 +56,11 @@ void Learn::generateKif(int n)
   uint64_t pos,legal;
   BitBoard board;
   ofstream fp;
-  fp.open("kif/100.txt");
+  string dirpath = getExecDirectoryName() + "eval/";
+
+  //読み込むkifファイル
+  fp.open((getExecDirectoryName()+"kif/100.txt").c_str());
+
   cout << "ファイルを開く" << endl;
   //createtable();//最右端ビット用テーブルの初期化
   if (!fp)
@@ -222,7 +235,6 @@ void Learn::learning()
   d4.open((dirpath+"d4.txt").c_str());
   if(!d4) return;
   d5.open((dirpath+"d5.txt").c_str());
-  d5.open("d5.txt");
   if(!d5) return;
   d6.open((dirpath+"d6.txt").c_str());
   if(!d6) return;
@@ -318,6 +330,7 @@ void Learn::learning()
   writeeval(&cr,6561,cor); 
   writeeval(&eg,6561,edg); 
 
+  fp.close();
   h2.close();
   h3.close();
   h4.close();

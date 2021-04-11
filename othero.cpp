@@ -327,6 +327,6 @@ BitBoard Othero::vput(uint64_t pos,BitBoard *board)
   revd_board = Othero::reverse(pos,board);//裏返った盤面
   *me ^= (pos | revd_board);//自分盤面更新
   *enemy ^= revd_board;//相手盤面更新
-  
+  inverseTEBAN(&vi);//手番逆転
   return vi;
 }

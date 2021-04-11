@@ -44,7 +44,7 @@ corner
 */
 
 
-int main(){
+int main(int argc,char *argv[]){
   /*
   int te;
   cout << "先後を選択(先手は-1，後手は1)" << endl;
@@ -78,12 +78,18 @@ int main(){
   //cout << "結果" << (int)(BLACK&WHITE) << endl;
   //openeval();
   srand((unsigned int)time(NULL)); // 現在時刻の情報で初期化
-  /*
-  generateKif(100);//引数に作成する対局数
-  learning();//学習用
-  */
+  
+  if(argc != 1){
+    if(argv[1][0] == 'l'){
+      Learn l;
+      l.generateKif(100);//引数に作成する対局数
+      l.learning();//学習用
+    }
+  }
+  else{
   // ENGINE e = new ENGINE();
   ENGINE e;
   e.recieve();
+  }
   return 0;
 }

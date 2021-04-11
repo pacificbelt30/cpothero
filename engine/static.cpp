@@ -8,11 +8,12 @@
 #include"../othero.h"
 #include"../learn.h"
 #include"./one.h"
+#include"./static.h"
 using namespace std;
 
 //一手読み
 //te 先手，後手
-void One::one(int te)
+void Static::one(int te)
 {
   //手順：　先手で
   //指す->入力される->合法手判断->適用(再入力)->繰り返し
@@ -188,77 +189,73 @@ void One::one(int te)
   return;
 }
 
-//置く処理
-//reverseと同様の処理をしている場所を書き直す
-BitBoard vput(uint64_t pos,BitBoard *board)
-{
-  int i;
-  BitBoard vi;//teban関係なし
-  uint64_t revd_board;//裏返った盤面
-  uint64_t *enemy;
-  uint64_t *me;
-  vi.white = board->white;
-  vi.black = board->black;
-
-  if ( board->teban == SENTE )
-  {
-    enemy=&vi.white;
-    me = &vi.black;
-  }
-  else
-  {
-    enemy=&vi.black;
-    me = &vi.white;
-  }
-
-  revd_board = Othero::reverse(pos,board);//裏返った盤面
-  *me ^= (pos | revd_board);//自分盤面更新
-  *enemy ^= revd_board;//相手盤面更新
-  
-  return vi;
-}
-
-int max(int array[],int n)
-{
-  int i,nummax=0;
-  int maxvalue=array[0];
-  for(i=1;i<n;i++)
-  {
-    if(maxvalue < array[i]) {
-      maxvalue = array[i];
-      nummax = i;
-    }
-  }
-  return nummax;
-}
-
-int min(int array[],int n)
-{
-  int i,nummax=0;
-  int maxvalue=array[0];
-  for(i=1;i<n;i++)
-  {
-    if(maxvalue > array[i]) {
-      maxvalue = array[i];
-      nummax = i;
-    }
-  }
-  return nummax;
-}
-
-string One::woi(){
+string Static::woi(){
   //return "ittedakeyomu";
   return to_string(eval.dir4[0]);
 }
 
-uint64_t One::go(){
+uint64_t Static::go(){
   BitBoard tmp = this->getboard();
   return bestPos(tmp);
   // return true;
 }
 
-uint64_t One::bestPos(BitBoard board){
+uint64_t Static::bestPos(BitBoard board){
+  BitBoard tmp = board;
   uint64_t legal = Othero::canReverse(&board);
+  int legalnum = Othero::bitCount(legal);
+
   uint64_t pos = eval.evalPos(legal,&board);
   return pos;
+}
+
+uint64_t Static::search(BitBoard board,int depth){
+  int best = (-1)*INFINITY;
+  uint64_t bestPos;
+  int val = 0;
+  BitBoard tmp = board;
+  uint64_t legal = Othero::canReverse(&board);
+  int legalnum = Othero::bitCount(legal);
+  for(i=0; i<64; i++)
+  {
+    if(legalnum<=count) break;
+    else if((legal&((uint64_t)(1)<<i))!=0)
+    {
+      val = eval(Othero::vput((uint64_t)(1) << i,&board),DEPTH);
+      if(best<val) {best = val; bestPos = (uint64_t)(1) << i}
+    }
+  }
+  return bestPos;
+}
+
+int eval(BitBoard board,int depth){
+  int best = (-1)*INFINITY;
+  BitBoard tmp = board;
+  uint64_t legal = Othero::canReverse(&board);
+  int legalnum = Othero::bitCount(legal);
+  if(depth == 0){
+  }
+  if(Othero::checkGameover(&board) =- GAME_OVER){
+  }
+  if(legalnum == 0){
+    Othero::inverseTEBAN(&tmp);
+    eval(-1,tmp,depth-1);
+    Othero::inverseTEBAN(&tmp);
+    if(best<val) best = val;
+    return best;
+  }
+  for(i=0; i<64; i++)
+  {
+    if(legalnum<=count) break;
+    else if((legal&((uint64_t)(1)<<i))!=0)
+    {
+      count++;
+      //BitBoard temp = board;
+      tmp = Othero::vput((uint64_t)(1)<<i,&board);
+      tmp.teban = board.teban;
+      Othero::inverseTEBAN(&temp);
+      Othero::inverseTEBAN(&temp);
+      if(best<val) best = val;
+    }
+  }
 }

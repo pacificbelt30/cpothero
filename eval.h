@@ -45,6 +45,7 @@ int *cor;
 int *edg; 
 
 uint64_t evalPos(uint64_t legalboard,BitBoard *board);
+uint64_t evalPos_s(BitBoard *board);
 /*
 static int hor2l[6561]; 
 static int hor3l[6561]; 

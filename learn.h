@@ -15,9 +15,11 @@ using namespace std;
 
 class Learn:public Eval{
     public:
-int **kif;
+//int **kif;
 using Eval::Eval;
 //using Eval::~Eval;
+Learn(){cout << "LEARNc"<<endl;}
+~Learn(){cout << "LEARNd"<<endl;}
 //追加
 void generateKif(int n);//棋譜を作成する関数
 //getPosnum posの座標をint型で取得

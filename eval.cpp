@@ -116,16 +116,28 @@ Eval::~Eval()
     // free(cor); 
     // free(edg); 
 
-    delete hor2; 
-    delete hor3; 
-    delete hor4; 
-    delete dir4; 
-    delete dir5; 
-    delete dir6; 
-    delete dir7; 
-    delete dir8; 
-    delete cor; 
-    delete edg; 
+    if(DEBUG_MODE) cout << "DEBUG:start deleting" << endl;
+    if(DEBUG_MODE) cout << "DEBUG:start hor2 deleting" << endl;
+    delete[] hor2; 
+    if(DEBUG_MODE) cout << "DEBUG:start hor3 deleting" << endl;
+    delete[] hor3; 
+    if(DEBUG_MODE) cout << "DEBUG:start hor4 deleting" << endl;
+    delete[] hor4; 
+    if(DEBUG_MODE) cout << "DEBUG:start dir4 deleting" << endl;
+    delete[] dir4; 
+    if(DEBUG_MODE) cout << "DEBUG:start dir5 deleting" << endl;
+    delete[] dir5; 
+    if(DEBUG_MODE) cout << "DEBUG:start dir6 deleting" << endl;
+    delete[] dir6; 
+    if(DEBUG_MODE) cout << "DEBUG:start dir7 deleting" << endl;
+    delete[] dir7; 
+    if(DEBUG_MODE) cout << "DEBUG:start dir8 deleting" << endl;
+    delete[] dir8; 
+    if(DEBUG_MODE) cout << "DEBUG:start cor deleting" << endl;
+    delete[] cor; 
+    if(DEBUG_MODE) cout << "DEBUG:start edg deleting" << endl;
+    delete[] edg; 
+    if(DEBUG_MODE) cout << "DEBUG:eng deleting" << endl;
 }
 
 //パターン
@@ -929,7 +941,7 @@ uint64_t Eval::evalPos(uint64_t legalboard,BitBoard *board)
   //if(DEBUG_MODE) cout << "index=" << index << endl;
   if(DEBUG_MODE) cout << "評価値(先手視点) = " << sum[index] << endl;
   // free(sum);
-  delete sum;
+  delete[] sum;
   for(i=0;i<64;i++)
   {
     if(legalboard&((uint64_t)(1)<<i))
@@ -942,4 +954,28 @@ uint64_t Eval::evalPos(uint64_t legalboard,BitBoard *board)
   return 0;
 }
 
-
+uint64_t Eval::evalPos_s(BitBoard *board){
+  int evalBoard[] = {
+   30, -12,   0,  -1,  -1,   0, -12,  30,
+  -12, -15,  -3,  -3,  -3,  -3, -15, -12,
+    0,  -3,   0,  -1,  -1,   0,  -3,   0,
+   -1,  -3,  -1,  -1,  -1,  -1,  -3,  -1,
+   -1,  -3,  -1,  -1,  -1,  -1,  -3,  -1,
+    0,  -3,   0,  -1,  -1,   0,  -3,   0,
+  -12, -15,  -3,  -3,  -3,  -3, -15, -12,
+   30, -12,   0,  -1,  -1,   0, -12,  30
+  };
+  int boardArray[64];
+  int eval = 0;
+  for(int i = 0;i < 64;i++){
+    boardArray[63-i] = 0;
+    if((board->black&((uint64_t)(1) << i)) != 0){
+      boardArray[63-i] = 1;
+    }
+    else if((board->white&((uint64_t)(1) << i)) != 0){
+      boardArray[63-i] = -1;
+    }
+    eval += boardArray[63-i] * evalBoard[63-i];
+  }
+  return eval;
+}

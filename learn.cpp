@@ -90,7 +90,7 @@ void Learn::generateKif(int n)
       /*
       if(bitCount(~(board.black|board.white))<=(SOLVE_DEPTH))
       {
-        resu=(board.teban)*solver(board);
+        resu=(board.teban)*solverMM(board);
         fprintf(fp,"%d ",resu);
         //fprintf(fp,"石差 %d ",resu);
         cout << "石差" << resu << endl;
@@ -152,7 +152,7 @@ void Learn::generateKif(int n)
       count++;
       cout << count << "手" << endl;
     }
-    resu=(board.teban)*Solve::solver(board);
+    resu=(board.teban)*Solve::solverMM(board);
     //resu = bitCount( board.black) - bitCount(board.white);
     fp << resu << " ";
     //fprintf(fp,"石差 %d ",resu);
@@ -163,7 +163,7 @@ void Learn::generateKif(int n)
     }
     fp << "\n";
   }
-  fp.close();
+  //fp.close();
   return;
 }
 
@@ -230,7 +230,7 @@ void Learn::learning()
   initArray(6561,cor); 
   initArray(6561,edg); 
   */
-  openeval();
+  //openeval();
 
   cout << "評価関数初期化" << endl;
 
@@ -271,6 +271,7 @@ void Learn::learning()
       fp >> kif[i][j];
     }
   }
+  fp.close();
 
   cout << "入力終了" << endl;
   Othero::init(&board);
@@ -288,6 +289,7 @@ void Learn::learning()
         //put(kif[i][j],&board);
         if(kif[i][j]!=0) Othero::put((uint64_t)1<<(kif[i][j]-1),&board);//uint64_tじゃない
         cout << "DEBUG BEFORE UPDATE" << endl;
+        //updateeval((int)((-1)*rate*((double)(-sumeval(&board)+1000*sekisa[i]))),&board);
         updateeval((int)(rate*((double)(-sumeval(&board)+1000*sekisa[i]))),&board);
 
         cout << "SEKISA = " << sekisa[i] << " : SUMEVAL =  " << sumeval(&board) << endl;
@@ -313,16 +315,17 @@ void Learn::learning()
 
   cout << "解析終了" << endl;
   // free(sekisa);
-  delete sekisa;
+  delete[] sekisa;
   cout << "free 石差終わり" << endl;
   for ( i = 0; i < taikyoku; i++)
+  //for ( i = 0; i < 64; i++)
   {
     // free(kif[i]);
-    delete kif[i];
+    delete[] kif[i];
   }
   cout << "free終わり" << endl;
   // free(kif);
-  delete kif;
+  delete[] kif;
   cout << "書き込み開始終わり" << endl;
   
   writeeval(&h2,6561,hor2); 
@@ -336,7 +339,8 @@ void Learn::learning()
   writeeval(&cr,6561,cor); 
   writeeval(&eg,6561,edg); 
 
-  fp.close();
+  cout << "DEBUG:start closing filestream" << endl;
+  //fp.close();
   h2.close();
   h3.close();
   h4.close();
@@ -347,6 +351,7 @@ void Learn::learning()
   d8.close();
   cr.close();
   eg.close();
+  cout << "DEBUG:closed filestream" << endl;
   return;
 }
 

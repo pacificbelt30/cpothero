@@ -69,8 +69,8 @@ int Solve::solver(BitBoard board){
       count++;
       //BitBoard temp = board;
       temp = Othero::vput((uint64_t)(1)<<i,&board);
-      temp.teban = board.teban;
-      Othero::inverseTEBAN(&temp);
+      //temp.teban = board.teban;
+      //Othero::inverseTEBAN(&temp);
       val = (-1)*solver(temp);
       if(best<val) best = val;
     }
@@ -150,7 +150,7 @@ int Solve::solverMM(BitBoard board){
         //BitBoard temp = board;
         temp = Othero::vput((uint64_t)1<<i,&board);
         //temp.teban = (-1)*board.teban;
-        Othero::inverseTEBAN(&temp);
+        //Othero::inverseTEBAN(&temp);
         val = solverMM(temp);
         if(best>val) best = val;
       }

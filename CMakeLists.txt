@@ -11,5 +11,6 @@ learn.cpp
 solve.cpp
 engine.cpp
 engine/one.cpp
+engine/static.cpp
 engine/rand_ai.cpp
 )

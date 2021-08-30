@@ -12,11 +12,13 @@ class Engine{
     string recieve();
     bool run(); // エンジン実行コマンド
     BitBoard getboard();
-
-  private:
     BitBoard board;
 
+  private:
+    //BitBoard board;
+
   protected:
+    //BitBoard board;
     virtual bool isReady();
     virtual bool gameover();
     virtual uint64_t go();

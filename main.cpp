@@ -10,7 +10,9 @@
 //#include"./learn.h"
 #include"./engine/rand_ai.h"
 #include"./engine/one.h"
+#include"./engine/static.h"
 //#include"./solve.h"
+#include"./test/aitest.h"
 using namespace std;
 
 /*
@@ -87,9 +89,16 @@ int main(int argc,char *argv[]){
     }
   }
   else{
-  // ENGINE e = new ENGINE();
-  ENGINE e;
-  e.recieve();
+    // ENGINE e = new ENGINE();
+    if(DEBUG_MODE){
+      AITest t;
+      t.staticAITest();
+      t.recieve();
+    }
+    else{
+      ENGINE e;
+      e.recieve();
+    }
   }
   return 0;
 }

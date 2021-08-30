@@ -8,6 +8,12 @@
 #include"./othero.h"
 #ifndef _EVAL_
 #define _EVAL_
+
+typedef struct _BestPosition{
+  uint64_t pos;
+  int eval;
+}BestPosition;
+
 class Eval{
 public:
 Eval();

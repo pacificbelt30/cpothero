@@ -9,6 +9,8 @@
 #include"../learn.h"
 #include"./one.h"
 #include"./static.h"
+#include"../env.h"
+#include<fstream>
 using namespace std;
 
 //一手読み
@@ -46,7 +48,7 @@ void Static::one(int te)
         }
         else
         {
-          pos = eval.evalPos(legal,&board);
+          pos = this->evalPos(legal,board);
           //cout << "evalPos=" << pos << endl;
           if (!pos) return;
           Othero::put(pos,&board);
@@ -118,7 +120,7 @@ void Static::one(int te)
         }
         else
         {
-          pos = eval.evalPos(legal,&board);
+          pos = this->evalPos(legal,board);
           //cout << "evalPos=" << pos << endl;
           if (!pos) return;
           Othero::put(pos,&board);
@@ -150,7 +152,7 @@ void Static::one(int te)
         }
         else
         {
-          pos = eval.evalPos(legal,&board);
+          pos = this->evalPos(legal,board);
           if (!pos) return;
           Othero::put(pos,&board);
         }
@@ -170,7 +172,7 @@ void Static::one(int te)
         }
         else
         {
-          pos = eval.evalPos(legal,&board);
+          pos = this->evalPos(legal,board);
           if (!pos) return;
           Othero::put(pos,&board);
         }
@@ -190,25 +192,31 @@ void Static::one(int te)
 }
 
 string Static::woi(){
-  //return "ittedakeyomu";
-  return to_string(eval.dir4[0]);
+  return "静的評価関数";
+  //return to_string(eval.dir4[0]);
 }
 
 uint64_t Static::go(){
   BitBoard tmp = this->getboard();
-  return bestPos(tmp);
+  uint64_t tmp2;
+  tmp2 = this->bestPos(tmp);
+  if(DEBUG_MODE) cout <<"bestpos "<< tmp2 << endl;
+  return tmp2;
   // return true;
 }
 
+//現在の局面を評価し最善手を返す
 uint64_t Static::bestPos(BitBoard board){
   BitBoard tmp = board;
   uint64_t legal = Othero::canReverse(&board);
   int legalnum = Othero::bitCount(legal);
 
-  uint64_t pos = eval.evalPos(legal,&board);
+  uint64_t pos = this->evalPos(legal,board);
+  if(DEBUG_MODE) cout <<"bestpos "<< pos << endl;
   return pos;
 }
 
+//探索 最善手を返す
 uint64_t Static::search(BitBoard board,int depth){
   int best = (-1)*INFINITY;
   uint64_t bestPos;
@@ -216,46 +224,117 @@ uint64_t Static::search(BitBoard board,int depth){
   BitBoard tmp = board;
   uint64_t legal = Othero::canReverse(&board);
   int legalnum = Othero::bitCount(legal);
-  for(i=0; i<64; i++)
+  int count = 0;
+  for(int i=0; i<64; i++)
   {
     if(legalnum<=count) break;
     else if((legal&((uint64_t)(1)<<i))!=0)
     {
-      val = eval(Othero::vput((uint64_t)(1) << i,&board),DEPTH);
-      if(best<val) {best = val; bestPos = (uint64_t)(1) << i}
+      //val = eval(Othero::vput((uint64_t)(1) << i,&board),ENGINEDEPTH);
+      if(best<val) {best = val; bestPos = (uint64_t)(1) << i;}
+      count++;
     }
   }
   return bestPos;
 }
 
-int eval(BitBoard board,int depth){
+//評価値
+uint64_t Static::evalPos(uint64_t legal,BitBoard board){
   int best = (-1)*INFINITY;
+  int tmpArray[64];
   BitBoard tmp = board;
-  uint64_t legal = Othero::canReverse(&board);
+  //uint64_t legal = Othero::canReverse(&board);
   int legalnum = Othero::bitCount(legal);
-  if(depth == 0){
-  }
-  if(Othero::checkGameover(&board) =- GAME_OVER){
+  int count = 0;
+  int val;
+  int index=0;
+  //if(depth == 0){
+  //}
+  if(Othero::checkGameover(&board) == GAME_OVER){
   }
   if(legalnum == 0){
-    Othero::inverseTEBAN(&tmp);
-    eval(-1,tmp,depth-1);
-    Othero::inverseTEBAN(&tmp);
-    if(best<val) best = val;
-    return best;
+    //Othero::inverseTEBAN(&tmp);
+    //this->evalPos(-1,tmp,depth-1);
+    //Othero::inverseTEBAN(&tmp);
+    //if(best<val) best = val;
+    //return best;
+    return -1;
   }
-  for(i=0; i<64; i++)
-  {
+
+  for(int i=0; i<64; i++){
+    val = 0;
     if(legalnum<=count) break;
-    else if((legal&((uint64_t)(1)<<i))!=0)
-    {
+    else if((legal&((uint64_t)(1)<<i))!=0){
       count++;
       //BitBoard temp = board;
       tmp = Othero::vput((uint64_t)(1)<<i,&board);
       tmp.teban = board.teban;
-      Othero::inverseTEBAN(&temp);
-      Othero::inverseTEBAN(&temp);
-      if(best<val) best = val;
+      Othero::inverseTEBAN(&tmp);
+      this->bitboardToArray(tmp,tmpArray);
+      //val = this->eval();
+      for (int j = 0; j < 64; j++) {
+        val += tmpArray[j] * this->staticBoard[j];
+      }
+      if(DEBUG_MODE) cout<< "now val:" << val <<" now best:" << best << endl;
+      Othero::inverseTEBAN(&tmp);//手番をもとに戻す この時点で入力の手番と同じになる
+      if(tmp.teban==GOTE)val *= -1;//後手番の場合評価値逆転
+      if(DEBUG_MODE)cout << "現在の評価値" << val << endl;
+      if(best<val) {best = val;index=i;if(DEBUG_MODE)cout<<index<<endl;}
     }
   }
+  if(DEBUG_MODE)cout << "index :" << index << " value:" << ((uint64_t)(1)<<index) <<endl;
+  return (uint64_t)(1)<<index;
+}
+
+void Static::bitboardToArray(BitBoard board,int* array){
+  for (int i = 0; i < 64; i++) {
+    if((board.black&(uint64_t(1)<<i))!=0){
+      array[63-i] = 1;
+    }
+    else if((board.white&(uint64_t(1)<<i))!=0){
+      array[63-i] = -1;
+    }
+    else{
+      array[63-i] = 0;
+    }
+  }
+  if(DEBUG_MODE){
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        cout << array[i*8+j];
+      }
+      cout << endl;
+    }
+    cout << "end" << endl;
+  }
+  return ;
+}
+
+void Static::openEval(){
+  std::ifstream ifs("./staticEvalBoard1.txt");
+  if(!ifs){
+    if(DEBUG_MODE)std::cout << "ファイルが開けませんでした．" << endl;
+    return;
+  }
+  if(DEBUG_MODE)std::cout << "ファイルを開けたよ" << endl;
+  for (int i = 0; i < 64; i++) {
+    ifs >> this->staticBoard[i];
+  }
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
+      if(DEBUG_MODE)std::cout << " " <<this->staticBoard[i*8+j];
+    }
+    std::cout << std::endl;
+    
+  }
+  return;
+}
+
+
+Static::Static(){
+  this->openEval();
+}
+
+Static::~Static(){
+
 }

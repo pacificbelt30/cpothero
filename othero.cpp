@@ -11,6 +11,7 @@
 #include<time.h>
 #include <unistd.h>
 #include"./othero.h"
+#include "./env.h"
 using namespace std;
 
 //Othero::Othero(){};
@@ -29,9 +30,11 @@ int Othero::bitCount(uint64_t board){
 
 //初期化
 void Othero::init(BitBoard *board){
-	board->black = 0x1008000000;
-	board->white = 0x810000000;
-	board->teban = SENTE;
+//  board->black = 0x1008000000;
+//  board->white = 0x810000000;
+  board->black = INITBLACK;
+  board->white = INITWHITE;
+  board->teban = INITTEBAN;
 }
 
 

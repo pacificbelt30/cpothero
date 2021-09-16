@@ -314,6 +314,7 @@ void Static::bitboardToArray(BitBoard board,int* array){
 void Static::openEval(){
   //std::ifstream ifs("~/work/cpothero/staticEvalBoard2.txt");
   std::ifstream ifs("/home/user/work/cpothero/staticEvalBoard2.txt");
+  //std::ifstream ifs("/home/user/work/cpothero/staticEvalBoard1.txt");
   if(!ifs){
     if(DEBUG_MODE)std::cout << "ファイルが開けませんでした．" << endl;
     return;

@@ -14,8 +14,8 @@
 const uint64_t INITBLACK = 69123964928;
 const uint64_t INITWHITE = 34359738368;
 const TEBAN INITTEBAN = GOTE;
-//const bool DEBUG_MODE = false;
-const bool DEBUG_MODE = true;
+const bool DEBUG_MODE = false;
+//const bool DEBUG_MODE = true;
 //using ENGINE = RandAIEngine;
 using ENGINE = One;
 //using ENGINE = Static;

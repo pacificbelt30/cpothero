@@ -14,6 +14,7 @@ void AITest::staticAITest(){
   //e.board.teban = -1;
   Othero::init(&board);
   cout << Othero::canReverse(&board)<<endl;;
+  cout << this->go();
   cout << this->evalPos(Othero::canReverse(&board),board) << endl;
   //cout << << endl;
 }

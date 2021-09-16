@@ -278,11 +278,12 @@ uint64_t Static::evalPos(uint64_t legal,BitBoard board){
       if(DEBUG_MODE) cout<< "now val:" << val <<" now best:" << best << endl;
       Othero::inverseTEBAN(&tmp);//手番をもとに戻す この時点で入力の手番と同じになる
       if(tmp.teban==GOTE)val *= -1;//後手番の場合評価値逆転
-      if(DEBUG_MODE)cout << "現在の評価値" << val << endl;
+      if(DEBUG_MODE)cout << "現在の評価値" << val << " value:"<<((uint64_t)(1)<<i)<< endl;
       if(best<val) {best = val;index=i;if(DEBUG_MODE)cout<<index<<endl;}
     }
   }
   if(DEBUG_MODE)cout << "index :" << index << " value:" << ((uint64_t)(1)<<index) <<endl;
+  cerr << "index :" << index << " value:" << ((uint64_t)(1)<<index) <<endl;
   return (uint64_t)(1)<<index;
 }
 
@@ -301,7 +302,7 @@ void Static::bitboardToArray(BitBoard board,int* array){
   if(DEBUG_MODE){
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
-        cout << array[i*8+j];
+        cout << setw(3) <<array[i*8+j];
       }
       cout << endl;
     }
@@ -311,7 +312,8 @@ void Static::bitboardToArray(BitBoard board,int* array){
 }
 
 void Static::openEval(){
-  std::ifstream ifs("./staticEvalBoard1.txt");
+  //std::ifstream ifs("~/work/cpothero/staticEvalBoard2.txt");
+  std::ifstream ifs("/home/user/work/cpothero/staticEvalBoard2.txt");
   if(!ifs){
     if(DEBUG_MODE)std::cout << "ファイルが開けませんでした．" << endl;
     return;
@@ -322,12 +324,96 @@ void Static::openEval(){
   }
   for (int i = 0; i < 8; i++) {
     for (int j = 0; j < 8; j++) {
-      if(DEBUG_MODE)std::cout << " " <<this->staticBoard[i*8+j];
+      if(DEBUG_MODE)std::cout << " " <<std::setw(4)<<this->staticBoard[i*8+j];
     }
     std::cout << std::endl;
     
   }
   return;
+}
+
+// 評価値と指し手の構造体を返す
+// gameoverのときは石差に重みを付けてを返す
+// passのときはpos=0にする
+BInfo Static::negaMax(BitBoard board,unsigned int depth){
+  int i,j;
+  int tmpArray[64];
+  int val;
+  int legalnum;
+  int count=0;
+  BInfo best;
+  best.eval = (-1)*INFINITY;
+  BitBoard temp;
+  uint64_t legal = Othero::canReverse(&board);
+  legalnum=Othero::bitCount(legal);
+
+  //DEBUG
+  //cout << "TEBAN=" << board.teban << endl;
+  //show(&board);
+
+  // depth = 0
+  if(depth<=0){
+    //best.eval = ;
+    this->bitboardToArray(board, tmpArray);
+    for (int j = 0; j < 64; j++) {
+      val += tmpArray[j] * this->staticBoard[j];
+    }
+  }
+
+  /* 葉の場合、評価値を返す */
+  if(Othero::checkGameover(&board)==GAME_OVER)
+  {
+    //if(board.teban == SENTE)//後手が最後に指した
+    if(board.teban == GOTE)//後手が最後に指した
+    {
+      best.eval = Othero::bitCount(board.white) - Othero::bitCount(board.black);
+      return best;
+    }
+    else//先手が最後に指した
+    {
+      best.eval = Othero::bitCount(board.black) - Othero::bitCount(board.white);
+      return best;
+    }
+  } //return eval();
+
+  /* 現在の局面から1手進めた状態をa1,a2,a3・・akとする */
+  //expand_node(node, 次の turn);
+
+
+  //pass
+  if(legalnum == 0)
+  {
+    temp = board;
+    Othero::inverseTEBAN(&temp);
+    //put(1<<i,&temp);
+    BInfo binfo = this->negaMax(temp, depth-1);
+    binfo.eval = (-1)*binfo.eval;
+    if(best.eval<binfo.eval) best = binfo;
+    return binfo;
+  }
+  
+  //
+  for(i=0; i<64; i++)
+  {
+    if(legalnum<=count) break;
+    else if((legal&((uint64_t)(1)<<i))!=0)
+    {
+      uint64_t pos = (uint64_t)(1)<<i;
+      count++;
+      //BitBoard temp = board;
+      temp = Othero::vput(pos,&board);
+      temp.teban = board.teban;
+      Othero::inverseTEBAN(&temp);
+      BInfo binfo = this->negaMax(temp, depth-1);
+      binfo.eval = (-1)*binfo.eval;
+      binfo.pos = pos;
+      if(best.eval<binfo.eval) best = binfo;
+    }
+    //val = - Negamax(ai, 次の turn, depth-1);
+    //if(best < val)   best= val;
+  }
+
+  return best;
 }
 
 

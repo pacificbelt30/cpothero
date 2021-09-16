@@ -66,7 +66,8 @@ bool Engine::position(){
   cin >> black >> white >> teban;
   board.black = black;
   board.white = white;
-  board.teban = TEBAN(teban);
+  board.teban = (TEBAN)(teban);
+  cerr << board.black<< " " << board.white<< " "  << board.teban << endl;
   return true;
 }
 

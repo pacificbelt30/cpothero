@@ -8,6 +8,13 @@
 #define _STATIC_
 #define ENGINEDEPTH 5
 #define INFINITY 1.0e9
+
+// 指し手に対する評価値の構造体
+typedef struct _BInfo {
+  uint64_t pos;
+  int eval;
+}BInfo;
+
 //一手読み
 //te 先手，後手
 class Static : public Engine{
@@ -28,5 +35,6 @@ class Static : public Engine{
         uint64_t go() override;
         string woi() override;
         uint64_t search(BitBoard board,int depth);//depth手探索
+        BInfo negaMax(BitBoard board,unsigned int depth);
 };
 #endif

@@ -7,6 +7,7 @@ string Engine::recieve(){
   while(true){
   string command;
   cin >> command;
+  //cout << "DEBUG" << endl;
   if(command=="woi"){
     cout << "id " << woi() << endl;
   }

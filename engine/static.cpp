@@ -199,9 +199,12 @@ string Static::woi(){
 uint64_t Static::go(){
   BitBoard tmp = this->getboard();
   uint64_t tmp2;
-  tmp2 = this->bestPos(tmp);
+  //tmp2 = this->bestPos(tmp);
+  BInfo tmp3;
+  tmp3 = this->negaMax(tmp, 5);
   if(DEBUG_MODE) cout <<"bestpos "<< tmp2 << endl;
-  return tmp2;
+  cerr <<"eval: "<< tmp3.eval<<" value:" << tmp3.pos <<" yomikazu:"<<tmp3.yomikazu<<endl;
+  return tmp3.pos;
   // return true;
 }
 
@@ -327,7 +330,7 @@ void Static::openEval(){
     for (int j = 0; j < 8; j++) {
       if(DEBUG_MODE)std::cout << " " <<std::setw(4)<<this->staticBoard[i*8+j];
     }
-    std::cout << std::endl;
+    if(DEBUG_MODE)std::cout << std::endl;
     
   }
   return;
@@ -339,11 +342,12 @@ void Static::openEval(){
 BInfo Static::negaMax(BitBoard board,unsigned int depth){
   int i,j;
   int tmpArray[64];
-  int val;
+  int val=0;
   int legalnum;
   int count=0;
   BInfo best;
   best.eval = (-1)*INFINITY;
+  best.yomikazu = 0;
   BitBoard temp;
   uint64_t legal = Othero::canReverse(&board);
   legalnum=Othero::bitCount(legal);
@@ -353,26 +357,35 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
   //show(&board);
 
   // depth = 0
+  /* 葉の場合、評価値を返す */
   if(depth<=0){
     //best.eval = ;
     this->bitboardToArray(board, tmpArray);
     for (int j = 0; j < 64; j++) {
       val += tmpArray[j] * this->staticBoard[j];
     }
+
+    //Othero::inverseTEBAN(&temp);//手番をもとに戻す この時点で入力の手番と同じになる
+    if(board.teban==SENTE)val *= -1;//後手番の場合評価値逆転
+    best.eval = val;
+    best.yomikazu = legalnum;
+    return best;
   }
 
-  /* 葉の場合、評価値を返す */
+  /* gameoverのときは石差に重みを付けてを返す */
   if(Othero::checkGameover(&board)==GAME_OVER)
   {
     //if(board.teban == SENTE)//後手が最後に指した
     if(board.teban == GOTE)//後手が最後に指した
     {
-      best.eval = Othero::bitCount(board.white) - Othero::bitCount(board.black);
+      best.eval = 1000*(Othero::bitCount(board.white) - Othero::bitCount(board.black));
+      best.yomikazu = legalnum;
       return best;
     }
     else//先手が最後に指した
     {
-      best.eval = Othero::bitCount(board.black) - Othero::bitCount(board.white);
+      best.eval = 1000*(Othero::bitCount(board.black) - Othero::bitCount(board.white));
+      best.yomikazu = legalnum;
       return best;
     }
   } //return eval();
@@ -390,10 +403,11 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
     BInfo binfo = this->negaMax(temp, depth-1);
     binfo.eval = (-1)*binfo.eval;
     if(best.eval<binfo.eval) best = binfo;
-    return binfo;
+    best.yomikazu = legalnum;
+    return best;
   }
   
-  //
+  //なんでもない時
   for(i=0; i<64; i++)
   {
     if(legalnum<=count) break;
@@ -408,6 +422,7 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
       BInfo binfo = this->negaMax(temp, depth-1);
       binfo.eval = (-1)*binfo.eval;
       binfo.pos = pos;
+      best.yomikazu += binfo.yomikazu;
       if(best.eval<binfo.eval) best = binfo;
     }
     //val = - Negamax(ai, 次の turn, depth-1);

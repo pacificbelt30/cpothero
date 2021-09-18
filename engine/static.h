@@ -13,6 +13,7 @@
 typedef struct _BInfo {
   uint64_t pos;
   int eval;
+  int yomikazu;
 }BInfo;
 
 //一手読み

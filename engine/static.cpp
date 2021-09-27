@@ -433,6 +433,11 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
 }
 
 
+BInfo Static::solver_nega(BitBoard board,unsigned int depth){
+  BInfo best;
+  return best;
+}
+
 Static::Static(){
   this->openEval();
 }

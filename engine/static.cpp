@@ -197,11 +197,13 @@ string Static::woi(){
 }
 
 uint64_t Static::go(){
-  BitBoard tmp = this->getboard();
-  uint64_t tmp2;
+  BitBoard tmp = this->getboard();//現在の局面
+  uint64_t tmp2;//
   //tmp2 = this->bestPos(tmp);
-  BInfo tmp3;
-  tmp3 = this->negaMax(tmp, 5);
+  BInfo tmp3;//
+  if(Othero::bitCount(~(tmp.black | tmp.white)) <= SOLVERDEPTH) tmp3=this->solver_nega(tmp);
+  tmp3 = this->negaMax(tmp, ENGINEDEPTH);
+  //tmp3 = this->solver_nega(tmp);
   if(DEBUG_MODE) cout <<"bestpos "<< tmp2 << endl;
   cerr <<"eval: "<< tmp3.eval<<" value:" << tmp3.pos <<" yomikazu:"<<tmp3.yomikazu<<endl;
   return tmp3.pos;
@@ -411,11 +413,12 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
   for(i=0; i<64; i++)
   {
     if(legalnum<=count) break;
-    else if((legal&((uint64_t)(1)<<i))!=0)
+    else if((legal&((uint64_t)(1)<<i))!=0) // 指せるとき
     {
       uint64_t pos = (uint64_t)(1)<<i;
       count++;
       //BitBoard temp = board;
+      // 一手後の盤面を生成し，その盤面で再帰
       temp = Othero::vput(pos,&board);
       temp.teban = board.teban;
       Othero::inverseTEBAN(&temp);
@@ -433,8 +436,64 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
 }
 
 
-BInfo Static::solver_nega(BitBoard board,unsigned int depth){
+BInfo Static::solver_nega(BitBoard board){
+  int i,j;
+  int tmpArray[64];
+  int val=0;
+  int legalnum;
+  int count=0;
   BInfo best;
+  best.eval = (-1)*INFINITY;
+  best.yomikazu = 0;
+  BitBoard temp;
+  uint64_t legal = Othero::canReverse(&board);
+  legalnum=Othero::bitCount(legal);
+
+  /* 葉の場合、評価値を返す */
+  if(Othero::checkGameover(&board)==GAME_OVER)
+  {
+    best.pos = 0;
+    best.eval = Othero::bitCount(board.black) - Othero::bitCount(board.white);
+    best.yomikazu = 0;
+    return best;
+  } //return eval();
+
+  //pass
+  if(legalnum == 0)
+  {
+    temp = board;
+    Othero::inverseTEBAN(&temp);
+    //put(1<<i,&temp);
+    BInfo binfo = this->solver_nega(temp);
+    binfo.eval = (-1)*binfo.eval;
+    if(best.eval<binfo.eval) best = binfo;
+    best.yomikazu = legalnum;
+    return best;
+  }
+  
+  //なんでもない時
+  for(i=0; i<64; i++)
+  {
+    if(legalnum<=count) break;
+    else if((legal&((uint64_t)(1)<<i))!=0) // 指せるとき
+    {
+      uint64_t pos = (uint64_t)(1)<<i;
+      count++;
+      //BitBoard temp = board;
+      // 一手後の盤面を生成し，その盤面で再帰
+      temp = Othero::vput(pos,&board);
+      temp.teban = board.teban;
+      Othero::inverseTEBAN(&temp);
+      BInfo binfo = this->solver_nega(temp);
+      binfo.eval = (-1)*binfo.eval;
+      binfo.pos = pos;
+      best.yomikazu += binfo.yomikazu;
+      if(best.eval<binfo.eval) best = binfo;
+    }
+    //val = - Negamax(ai, 次の turn, depth-1);
+    //if(best < val)   best= val;
+  }
+
   return best;
 }
 

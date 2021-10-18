@@ -6,7 +6,7 @@
 
 #ifndef _STATIC_
 #define _STATIC_
-#define ENGINEDEPTH 5
+#define ENGINEDEPTH 3
 #define SOLVERDEPTH 7
 #define INFINITY 1.0e9
 
@@ -24,6 +24,7 @@ class Static : public Engine{
     Static();
     ~Static();
     void one(int te);
+    uint64_t bestPos(BitBoard board);
   private:
   protected:
     //valiable
@@ -33,7 +34,6 @@ class Static : public Engine{
     uint64_t evalPos(uint64_t legal,BitBoard board);
     void bitboardToArray(BitBoard board,int* array);
     void openEval();
-    uint64_t bestPos(BitBoard board);
     uint64_t go() override;
     string woi() override;
     uint64_t search(BitBoard board,int depth);//depth手探索

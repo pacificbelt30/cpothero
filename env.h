@@ -17,6 +17,6 @@ const TEBAN INITTEBAN = GOTE;
 const bool DEBUG_MODE = false;
 //const bool DEBUG_MODE = true;
 //using ENGINE = RandAIEngine;
-//using ENGINE = One;
-using ENGINE = Static;
+using ENGINE = One;
+//using ENGINE = Static;
 #endif

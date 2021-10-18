@@ -197,28 +197,28 @@ string Static::woi(){
 }
 
 uint64_t Static::go(){
-  BitBoard tmp = this->getboard();//現在の局面
-  uint64_t tmp2;//
-  //tmp2 = this->bestPos(tmp);
-  BInfo tmp3;//
-  if(Othero::bitCount(~(tmp.black | tmp.white)) <= SOLVERDEPTH) tmp3=this->solver_nega(tmp);
-  tmp3 = this->negaMax(tmp, ENGINEDEPTH);
-  //tmp3 = this->solver_nega(tmp);
-  if(DEBUG_MODE) cout <<"bestpos "<< tmp2 << endl;
-  cerr <<"eval: "<< tmp3.eval<<" value:" << tmp3.pos <<" yomikazu:"<<tmp3.yomikazu<<endl;
-  return tmp3.pos;
-  // return true;
+  BitBoard nowBoard = this->getboard();//現在の局面
+  return this->bestPos(nowBoard);
 }
 
 //現在の局面を評価し最善手を返す
 uint64_t Static::bestPos(BitBoard board){
-  BitBoard tmp = board;
-  uint64_t legal = Othero::canReverse(&board);
-  int legalnum = Othero::bitCount(legal);
-
-  uint64_t pos = this->evalPos(legal,board);
-  if(DEBUG_MODE) cout <<"bestpos "<< pos << endl;
-  return pos;
+  BitBoard nowBoard = board;//現在の局面
+  uint64_t tmp2;//
+  //tmp2 = this->bestPos(tmp);
+  BInfo best;//
+  if(Othero::bitCount(~(nowBoard.black | nowBoard.white)) <= SOLVERDEPTH) {
+    best=this->solver_nega(nowBoard);
+    cerr <<"sovler: "<< best.eval<<" value:" << best.pos <<" yomikazu:"<<best.yomikazu<<endl;
+  }
+  else {
+    best = this->negaMax(nowBoard, ENGINEDEPTH);
+    cerr <<"eval: "<< best.eval<<" value:" << best.pos <<" yomikazu:"<<best.yomikazu<<endl;
+  }
+  //best = this->solver_nega(tmp);
+  //if(DEBUG_MODE) cout <<"bestpos "<< tmp2 << endl;
+  return best.pos;
+  // return true;
 }
 
 //探索 最善手を返す
@@ -292,6 +292,7 @@ uint64_t Static::evalPos(uint64_t legal,BitBoard board){
   return (uint64_t)(1)<<index;
 }
 
+// ビットボードの情報を配列に
 void Static::bitboardToArray(BitBoard board,int* array){
   for (int i = 0; i < 64; i++) {
     if((board.black&(uint64_t(1)<<i))!=0){
@@ -316,6 +317,7 @@ void Static::bitboardToArray(BitBoard board,int* array){
   return ;
 }
 
+// 評価用ファイルを開く
 void Static::openEval(){
   //std::ifstream ifs("~/work/cpothero/staticEvalBoard2.txt");
   std::ifstream ifs("/home/user/work/cpothero/staticEvalBoard2.txt");
@@ -368,7 +370,8 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
     }
 
     //Othero::inverseTEBAN(&temp);//手番をもとに戻す この時点で入力の手番と同じになる
-    if(board.teban==SENTE)val *= -1;//後手番の場合評価値逆転
+    //if(board.teban==SENTE)val *= -1;//後手番の場合評価値逆転
+    if(board.teban==GOTE)val *= -1;//後手番の場合評価値逆転
     best.eval = val;
     best.yomikazu = legalnum;
     return best;
@@ -436,6 +439,7 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
 }
 
 
+// 最終完全読み
 BInfo Static::solver_nega(BitBoard board){
   int i,j;
   int tmpArray[64];

@@ -28,6 +28,7 @@ auto f = [](){
 #include "./eval.h"
 #include "./engine/rand_ai.h"
 #include "./engine/one.h"
+#include "./engine/static.h"
 using namespace std;
 
 
@@ -57,6 +58,7 @@ void Learn::generateKif(int n)
   BitBoard board;
   ofstream fp;
   string dirpath = getExecDirectoryName() + "eval/";
+  Static staticEngine;
 
   //読み込むkifファイル
   fp.open((getExecDirectoryName()+"kif/100.txt").c_str());
@@ -116,7 +118,8 @@ void Learn::generateKif(int n)
         {
           //pos = randPos(legal);
           if(count<10)pos = randPos(legal);
-          else pos = evalPos(legal,&board);
+          //else pos = evalPos(legal,&board);
+          else pos = staticEngine.bestPos(board);
           if (!pos) return;
           Othero::put(pos,&board);
           //kif[count] = getRMB(pos);//kif保存
@@ -139,7 +142,8 @@ void Learn::generateKif(int n)
         {
           //pos = randPos(legal);
           if(count<10)pos = randPos(legal);
-          else pos = evalPos(legal,&board);
+          //else pos = evalPos(legal,&board);
+          else pos = staticEngine.bestPos(board);
           if (!pos) return;
           Othero::put(pos,&board);
           //kif[count] = getRMB(pos);//kif保存
@@ -355,7 +359,7 @@ void Learn::learning()
   return;
 }
 
-
+// 評価値更新
 void Learn::updateeval(int point,BitBoard *board)
 {
   hor2[sumhor2(board,1)]+=point;//3^8 = 6561

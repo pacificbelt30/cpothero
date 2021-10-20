@@ -25,6 +25,7 @@ class Static : public Engine{
     ~Static();
     void one(int te);
     uint64_t bestPos(BitBoard board);
+    BInfo solver_nega(BitBoard board);
   private:
   protected:
     //valiable
@@ -38,6 +39,5 @@ class Static : public Engine{
     string woi() override;
     uint64_t search(BitBoard board,int depth);//depth手探索
     BInfo negaMax(BitBoard board,unsigned int depth);
-    BInfo solver_nega(BitBoard board);
 };
 #endif

@@ -11,7 +11,7 @@
 #include"./engine/rand_ai.h"
 #include"./engine/one.h"
 #include"./engine/static.h"
-//#include"./solve.h"
+#include"./solve.h"
 #include"./test/aitest.h"
 using namespace std;
 
@@ -84,8 +84,19 @@ int main(int argc,char *argv[]){
   if(argc != 1){
     if(argv[1][0] == 'l'){
       Learn l;
-      l.generateKif(100);//引数に作成する対局数
+      l.generateKif(KYOKUSU);//引数に作成する対局数
       l.learning();//学習用
+    }
+    if(argv[1][0] == 's'){
+      BitBoard board;
+      Static solverEngine;
+      board.black = DEBUG_SOLVE_BLACK;
+      board.white = DEBUG_SOLVE_WHITE;
+      board.teban = DEBUG_SOLVE_TEBAN;
+      cout << "solver 結果" << Solve::solver(board) << endl;
+      cout << "solverMM 結果" << Solve::solverMM(board) << endl;
+      cout << "solverEngine 結果" << solverEngine.solver_nega(board).eval << endl;
+      //cout << "空きます" << (int)(BLACK&WHITE) << endl;
     }
   }
   else{

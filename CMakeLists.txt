@@ -13,5 +13,6 @@ engine.cpp
 engine/one.cpp
 engine/static.cpp
 engine/rand_ai.cpp
+engine/nteyomi.cpp
 test/aitest.cpp
 )

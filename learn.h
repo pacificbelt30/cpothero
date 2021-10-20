@@ -13,6 +13,7 @@ using namespace std;
 #define _LEARN_
 
 #define SOLVE_DEPTH 10
+#define KYOKUSU 1000 // 対局数
 
 class Learn:public Eval{
     public:

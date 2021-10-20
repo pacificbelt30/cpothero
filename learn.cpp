@@ -156,7 +156,8 @@ void Learn::generateKif(int n)
       count++;
       cout << count << "手" << endl;
     }
-    resu=(board.teban)*Solve::solverMM(board);
+    //resu=(board.teban)*Solve::solverMM(board);
+    resu=Solve::solverMM(board);
     //resu = bitCount( board.black) - bitCount(board.white);
     fp << resu << " ";
     //fprintf(fp,"石差 %d ",resu);
@@ -222,7 +223,7 @@ void Learn::learning()
 
   //読み込むkifファイル
   fp.open((getExecDirectoryName()+"kif/100.txt").c_str());
-/*
+  /*
   initArray(6561,hor2); 
   initArray(6561,hor3); 
   initArray(6561,hor4); 
@@ -281,7 +282,7 @@ void Learn::learning()
   Othero::init(&board);
 
   cout << "board初期化" << endl;
-//segmentaion fault
+  //segmentaion fault
   for ( i = 0; i < taikyoku; i++)
   {
     cout << "第" << i << "局" << endl;

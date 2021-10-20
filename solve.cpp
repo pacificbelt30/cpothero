@@ -17,7 +17,6 @@ Solve::Solve()
     Othero othero;
 }
 int Solve::solver(BitBoard board){
-
   int i,j;
   int val;
   int legalnum;
@@ -81,8 +80,8 @@ int Solve::solver(BitBoard board){
   return best;
 }
 
+// ミニマックスソルバー
 int Solve::solverMM(BitBoard board){
-
   int i,j;
   int val;
   int legalnum;

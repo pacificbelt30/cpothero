@@ -381,13 +381,13 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
   if(Othero::checkGameover(&board)==GAME_OVER)
   {
     //if(board.teban == SENTE)//後手が最後に指した
-    if(board.teban == GOTE)//後手が最後に指した
+    if(board.teban == GOTE)//先手が最後に指した(-1倍されるのでwhite-black)
     {
       best.eval = 1000*(Othero::bitCount(board.white) - Othero::bitCount(board.black));
       best.yomikazu = legalnum;
       return best;
     }
-    else//先手が最後に指した
+    else//後手が最後に指した
     {
       best.eval = 1000*(Othero::bitCount(board.black) - Othero::bitCount(board.white));
       best.yomikazu = legalnum;
@@ -422,7 +422,7 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
       TEBAN b,a;
       count++;
       //BitBoard temp = board;
-      temp = board;
+      //temp = board;
       // 一手後の盤面を生成し，その盤面で再帰
       temp = Othero::vput(pos,&board);//この時点で手番が変わってはいる
       temp.teban = board.teban;
@@ -430,7 +430,6 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
       //if(depth==1) cerr << "DEBUG_depth 1 teban:" << (int)(temp.teban) <<endl;
       Othero::inverseTEBAN(&temp);
       a = temp.teban;
-      //cerr << "before teban:" << b << " after teban:" << a <<endl;
       if(b==a){cerr<<"ilegal teban"<<endl;}
       BInfo binfo = this->negaMax(temp, depth-1);
       binfo.eval = (-1)*binfo.eval;
@@ -449,11 +448,12 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
 // 最終完全読み
 BInfo Static::solver_nega(BitBoard board){
   int i,j;
-  int tmpArray[64];
+  //int tmpArray[64];
   int val=0;
   int legalnum;
   int count=0;
   BInfo best;
+  best.pos = 0ULL;
   best.eval = (-1)*INFINITY;
   best.yomikazu = 0;
   BitBoard temp;
@@ -463,8 +463,7 @@ BInfo Static::solver_nega(BitBoard board){
   /* 葉の場合、評価値を返す */
   if(Othero::checkGameover(&board)==GAME_OVER)
   {
-    best.pos = 0;
-    if(board.teban == GOTE)//後手が最後に指した
+    if(board.teban == GOTE)//先手が最後に指した(-1倍されるのでwhite-black)
     {
       best.eval = Othero::bitCount(board.white) - Othero::bitCount(board.black);
     }
@@ -472,24 +471,34 @@ BInfo Static::solver_nega(BitBoard board){
     {
       best.eval = Othero::bitCount(board.black) - Othero::bitCount(board.white);
     }
+    best.pos = 0ULL;
     best.yomikazu = 0;
+    //cout << "static solver gameover" << endl;
     return best;
   } //return eval();
 
   //pass
   if(legalnum == 0)
   {
-    temp = board;
-    Othero::inverseTEBAN(&temp);
+    //temp = board;
+    //Othero::inverseTEBAN(&temp);
+    TEBAN fat = board.teban;
+    Othero::inverseTEBAN(&board);
+    if(fat==board.teban) std::cout << "error" << std::endl;
     //put(1<<i,&temp);
-    BInfo binfo = this->solver_nega(temp);
-    binfo.eval = (-1)*binfo.eval;
-    if(best.eval<binfo.eval) best = binfo;
+    //BInfo binfo = this->solver_nega(temp);
+    BInfo binfo = this->solver_nega(board);
+    //binfo.eval = (-1)*binfo.eval;
+    //if(best.eval<binfo.eval) best = binfo;
+    //best = binfo;
+    best.eval = (-1)*binfo.eval;
+    best.pos = 0ULL;
     best.yomikazu = legalnum;
     return best;
   }
   
   //なんでもない時
+  count = 0;
   for(i=0; i<64; i++)
   {
     if(legalnum<=count) break;
@@ -499,12 +508,14 @@ BInfo Static::solver_nega(BitBoard board){
       count++;
       //BitBoard temp = board;
       // 一手後の盤面を生成し，その盤面で再帰
-      temp = Othero::vput(pos,&board);
+      //BitBoard temp = Othero::vput(pos,&board);
+      temp = Othero::vput(pos,&board); /* これを使うとバグる? */ 
       //temp.teban = board.teban;
+
       //Othero::inverseTEBAN(&temp);
-      BInfo binfo = this->solver_nega(temp);
+      BInfo binfo = this->solver_nega(Othero::vput(pos, &board));
       binfo.eval = (-1)*binfo.eval;
-      binfo.pos = pos;
+      binfo.pos = (uint64_t)pos;
       best.yomikazu += binfo.yomikazu;
       if(best.eval<binfo.eval) best = binfo;
     }

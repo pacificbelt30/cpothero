@@ -93,9 +93,23 @@ int main(int argc,char *argv[]){
       board.black = DEBUG_SOLVE_BLACK;
       board.white = DEBUG_SOLVE_WHITE;
       board.teban = DEBUG_SOLVE_TEBAN;
+      cout << board.black << " " << board.white << " " << board.teban << endl;
       cout << "solver 結果" << Solve::solver(board) << endl;
+      cout << "solver 結果" << Solve::solver(board) << endl;
+      int temp = Solve::solver(board);
+      cout << "solver 結果" << temp << endl;
       cout << "solverMM 結果" << Solve::solverMM(board) << endl;
+      /*??????*/
       cout << "solverEngine 結果" << solverEngine.solver_nega(board).eval << endl;
+      cout << "solverEngine 結果" << solverEngine.solver_nega(board).eval << endl;
+      BInfo binfo = solverEngine.solver_nega(board);
+      int eval = solverEngine.solver_nega(board).eval;
+      //binfo.eval = solverEngine.solver_nega(board).eval;
+      cout << "solverEngine 結果" << binfo.eval << endl;
+      cout << "solverEngine 結果" << binfo.pos  << endl;
+      cout << "solverEngine 結果" << eval  << endl;
+      cout << "solverEngine 結果" << solverEngine.solver_nega(board).eval << endl;
+      cout << board.black << " " << board.white << " " << board.teban << endl;
       //cout << "空きます" << (int)(BLACK&WHITE) << endl;
     }
   }

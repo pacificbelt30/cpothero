@@ -207,6 +207,7 @@ int Othero::checkGameover(BitBoard *board)
   //PASS:1
   //GAMEOVER:2
   //埋まったマス
+  BitBoard temp = *board;
   uint64_t vdmasu=board->black|board->white;
   if(~(vdmasu)==0)//空きマスがない場合
   {
@@ -217,20 +218,25 @@ int Othero::checkGameover(BitBoard *board)
   {
     return GAME_OVER;
   }
-  else if(canReverse(board)==0)
+  //else if(Othero::bitCount(canReverse(board))==0)
+  else if(Othero::bitCount(canReverse(&temp))==0)
   { 
+    //board->teban*=(-1);
+    //inverseTEBAN(board);
+    inverseTEBAN(&temp);
+    
+    //if(Othero::bitCount(canReverse(board))==0)
+    if(Othero::bitCount(canReverse(&temp))==0)
+    {
       //board->teban*=(-1);
-      inverseTEBAN(board);
-      
-      if(canReverse(board)==0)
-      {
-          //board->teban*=(-1);
-          inverseTEBAN(board);
-          return GAME_OVER;
-      }
-      //board->teban*=(-1);
-      inverseTEBAN(board);
-      return PASS;
+      //inverseTEBAN(board);
+      inverseTEBAN(&temp);
+      return GAME_OVER;
+    }
+    //board->teban*=(-1);
+    //inverseTEBAN(board);
+    inverseTEBAN(&temp);
+    return PASS;
   }
   return 0;
 }

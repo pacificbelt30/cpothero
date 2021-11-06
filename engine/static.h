@@ -12,9 +12,9 @@
 
 // 指し手に対する評価値の構造体
 typedef struct _BInfo {
-  uint64_t pos; // 指し手
   int eval; // 評価値
   int yomikazu; // 読んだ手の数
+  uint64_t pos; // 指し手
 }BInfo;
 
 //一手読み

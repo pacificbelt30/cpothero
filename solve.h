@@ -59,7 +59,7 @@
 #define BLACK 0x70485A227810FE
 #define WHITE 0xFC8CB7A5DD87ED00
 
-#define INFINITY (64*1000+1);
+#define INFINITY 1.0e9
 
 class Solve{
     public:

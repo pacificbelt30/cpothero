@@ -16,6 +16,7 @@ Solve::Solve()
 {
     Othero othero;
 }
+
 int Solve::solver(BitBoard board){
   int i,j;
   int val;
@@ -34,12 +35,14 @@ int Solve::solver(BitBoard board){
   if(Othero::checkGameover(&board)==GAME_OVER)
   {
     //if(board.teban == SENTE)//後手が最後に指した
-    if(board.teban == GOTE)//後手が最後に指した
+    if(board.teban == GOTE)//先手が最後に指した(-1倍されるのでwhite-black)
     {
+      //cout << "solver gameover" << endl;
       return Othero::bitCount(board.white) - Othero::bitCount(board.black);
     }
     else//先手が最後に指した
     {
+      //cout << "solver gameover" << endl;
       return Othero::bitCount(board.black) - Othero::bitCount(board.white);
     }
   } //return eval();
@@ -49,12 +52,14 @@ int Solve::solver(BitBoard board){
 
 
   //pass
-  if(legalnum == 0)
+  else if(Othero::checkGameover(&board)==PASS)
   {
     temp = board;
-    Othero::inverseTEBAN(&temp);
+    TEBAN a = temp.teban;
+    Othero::inverseTEBAN(&board);
+    if(a==board.teban) std::cout << "error" << std::endl;
     //put(1<<i,&temp);
-    val = (-1)*solver(temp);
+    val = (-1)*solver(board);
     if(best<val) best = val;
     return best;
   }

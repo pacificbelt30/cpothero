@@ -30,8 +30,6 @@ int Othero::bitCount(uint64_t board){
 
 //初期化
 void Othero::init(BitBoard *board){
-//  board->black = 0x1008000000;
-//  board->white = 0x810000000;
   board->black = INITBLACK;
   board->white = INITWHITE;
   board->teban = INITTEBAN;
@@ -289,9 +287,8 @@ void Othero::result(BitBoard *board)
   {
     cout << "白番 " << bitCount(board->white)-bitCount(board->black) << "石差で勝ち" << endl;
   }
-  
-  
 }
+
 uint64_t Othero::inputPos() {
   char retu;
   int gyo;

@@ -472,7 +472,7 @@ BInfo Static::solver_nega(BitBoard board){
       best.eval = Othero::bitCount(board.black) - Othero::bitCount(board.white);
     }
     best.pos = 0ULL;
-    best.yomikazu = 0;
+    best.yomikazu = 1;
     //cout << "static solver gameover" << endl;
     return best;
   } //return eval();

@@ -102,10 +102,13 @@ int main(int argc,char *argv[]){
       /*??????*/
       cout << "solverEngine 結果" << solverEngine.solver_nega(board).eval << endl;
       cout << "solverEngine 結果" << solverEngine.solver_nega(board).eval << endl;
+      cout << "solverEngine yomikazu 結果" << solverEngine.solver_nega(board).yomikazu << endl;
+      cout << "solverEngine yomikazu 結果" << solverEngine.solver_nega(board).yomikazu << endl;
       BInfo binfo = solverEngine.solver_nega(board);
       int eval = solverEngine.solver_nega(board).eval;
       //binfo.eval = solverEngine.solver_nega(board).eval;
       cout << "solverEngine 結果" << binfo.eval << endl;
+      cout << "solverEngine yomikazu 結果" << binfo.yomikazu << endl;
       cout << "solverEngine 結果" << binfo.pos  << endl;
       cout << "solverEngine 結果" << eval  << endl;
       cout << "solverEngine 結果" << solverEngine.solver_nega(board).eval << endl;

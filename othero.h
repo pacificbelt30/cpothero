@@ -9,17 +9,18 @@
 #define MASK_HORIZONTAL 0x7e7e7e7e7e7e7e7e
 #define MASK_VERTICAL 0x00ffffffffffff00
 #define MASK_DIAGONAL 0x007e7e7e7e7e7e00
+
 //手番の列挙型
 typedef enum _TEBAN : int{
-	SENTE = -1,
-	GAMEOVER = 0,
-	GOTE = 1,
+  SENTE = -1,
+  GAMEOVER = 0,
+  GOTE = 1,
 }TEBAN;
 
 //みんな大好きBitBoard 黒番、白番の盤面状態と手番情報を保持
 typedef struct _BitBoard{
-	uint64_t black,white;
-	TEBAN teban;
+  uint64_t black,white;
+  TEBAN teban;
 }BitBoard;
 
 class Othero

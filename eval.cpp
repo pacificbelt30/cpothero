@@ -201,8 +201,6 @@ int Eval::sumhor2(BitBoard *board,int direction)
     return -1;
     break;
   }
-
-  
 }
 
 int Eval::sumhor3(BitBoard *board,int direction)
@@ -259,8 +257,6 @@ int Eval::sumhor3(BitBoard *board,int direction)
     return -1;
     break;
   }
-
-  
 }
 
 int Eval::sumhor4(BitBoard *board,int direction)
@@ -317,8 +313,6 @@ int Eval::sumhor4(BitBoard *board,int direction)
     return -1;
     break;
   }
-
-  
 }
 
 int Eval::sumdir4(BitBoard *board,int direction)
@@ -359,8 +353,6 @@ int Eval::sumdir4(BitBoard *board,int direction)
     return -1;
     break;
   }
-
-  
 }
 
 int Eval::sumdir5(BitBoard *board,int direction)
@@ -405,8 +397,6 @@ int Eval::sumdir5(BitBoard *board,int direction)
     return -1;
     break;
   }
-
-  
 }
 
 int Eval::sumdir6(BitBoard *board,int direction)
@@ -455,8 +445,6 @@ int Eval::sumdir6(BitBoard *board,int direction)
     return -1;
     break;
   }
-
-  
 }
 
 int Eval::sumdir7(BitBoard *board,int direction)
@@ -509,8 +497,6 @@ int Eval::sumdir7(BitBoard *board,int direction)
     return -1;
     break;
   }
-
-  
 }
 
 int Eval::sumdir8(BitBoard *board,int direction)
@@ -545,8 +531,6 @@ int Eval::sumdir8(BitBoard *board,int direction)
     return -1;
     break;
   }
-
-  
 }
 
 int Eval::sumedg(BitBoard *board,int direction)
@@ -603,8 +587,6 @@ int Eval::sumedg(BitBoard *board,int direction)
     return -1;
     break;
   }
-
-  
 }
 
 int Eval::sumcor(BitBoard *board,int direction)
@@ -879,7 +861,6 @@ void Eval::openeval()
   }
 
   return ;
-
 }
 
 

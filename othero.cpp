@@ -69,13 +69,11 @@ uint64_t Othero::reverse(uint64_t pos, BitBoard *board){
   uint64_t enemy,me,tmp=0;
 
   //手番判定
-  if ( board->teban == SENTE )
-  {
+  if ( board->teban == SENTE ){
     enemy=board->white;
     me = board->black;
   }
-  else
-  {
+  else{
     enemy=board->black;
     me = board->white;
   }
@@ -83,90 +81,58 @@ uint64_t Othero::reverse(uint64_t pos, BitBoard *board){
   //右
   tmp=0;
   for ( i = 1; ((pos >> i) & MASK_HORIZONTAL & enemy) !=0 ; i++)
-  {
     tmp = tmp|(pos>>i);
-  }
   if (((pos>>i)&me) != 0)
-  {
     revd_board = revd_board | tmp; 
-  }
   
   //左
   tmp=0;
   for ( i = 1; ((pos << i) & MASK_HORIZONTAL & enemy) !=0 ; i++)
-  {
     tmp = tmp|(pos<<i);
-  }
   if (((pos<<i)&me) != 0)
-  {
     revd_board = revd_board | tmp; 
-  }
   
   //上
   tmp=0;
   for ( i = 1; ((pos << (i*8)) & MASK_VERTICAL & enemy) !=0 ; i++)
-  {
     tmp = tmp|(pos<<(i*8));
-  }
   if ((pos<<(i*8)&me) != 0)
-  {
     revd_board = revd_board | tmp; 
-  }
 
   //下
   tmp=0;
   for ( i = 1; ((pos >> (i*8)) & MASK_VERTICAL & enemy) !=0 ; i++)
-  {
     tmp = tmp|(pos>>(i*8));
-  }
   if ((pos>>(i*8)&me) != 0)
-  {
     revd_board = revd_board | tmp; 
-  }
   
   //右上
   tmp=0;
   for ( i = 1; ((pos << (i*7)) & MASK_DIAGONAL & enemy) !=0 ; i++)
-  {
     tmp = tmp|(pos<<(i*7));
-  }
   if ((pos<<(i*7)&me) != 0)
-  {
     revd_board = revd_board | tmp; 
-  }
   
   //左上
   tmp=0;
   for ( i = 1; ((pos << (i*9)) & MASK_DIAGONAL & enemy) !=0 ; i++)
-  {
     tmp = tmp|(pos<<(i*9));
-  }
   if ((pos<<(i*9)&me) != 0)
-  {
     revd_board = revd_board | tmp; 
-  }
   
   //右下
   tmp=0;
   for ( i = 1; ((pos >> (i*9)) & MASK_DIAGONAL & enemy) !=0 ; i++)
-  {
     tmp = tmp|(pos>>(i*9));
-  }
   if ((pos>>(i*9)&me) != 0)
-  {
     revd_board = revd_board | tmp; 
-  }
 
   //左下
   tmp=0;
   for ( i = 1; ((pos >> (i*7)) & MASK_DIAGONAL & enemy) !=0 ; i++)
-  {
     tmp = tmp|(pos>>(i*7));
-  }
   if ((pos>>(i*7)&me) != 0)
-  {
     revd_board = revd_board | tmp; 
-  }
 
   return revd_board;
 }

@@ -1,9 +1,3 @@
-/*
-オセロの機能
-ひっくり返す処理
-ビットボード
-置く処理
-*/
 #include<iostream>
 #include<stdio.h>
 #include<stdint.h>

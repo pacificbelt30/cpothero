@@ -206,10 +206,11 @@ int Othero::checkGameover(BitBoard *board)
 {
   //PASS:1
   //GAMEOVER:2
+  BitBoard temp = *board;
   //if(Othero::bitCount(canReverse(board))==0)
   if(Othero::bitCount(canReverse(&temp))==0)
   { 
-    BitBoard temp = *board;
+
     //inverseTEBAN(board);
     inverseTEBAN(&temp);
     

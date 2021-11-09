@@ -40,3 +40,5 @@ build.ninja
 cmake_install.cmake
 main
 compile_commands.json
+endgame/
+kif/

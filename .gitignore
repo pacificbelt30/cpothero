@@ -42,3 +42,6 @@ main
 compile_commands.json
 endgame/
 kif/
+staticEvalBoard1.txt
+staticEvalBoard2.txt
+tags

@@ -177,7 +177,7 @@ uint64_t Othero::reverse(uint64_t pos, BitBoard *board){
   return revd_board;
 }
 
-//合法手の数を返す関数
+//合法手を返す関数
 uint64_t Othero::canReverse(BitBoard *board)
 {
   int i;
@@ -204,36 +204,18 @@ int Othero::checkGameover(BitBoard *board)
 {
   //PASS:1
   //GAMEOVER:2
-  //埋まったマス
-  BitBoard temp = *board;
-  uint64_t vdmasu=board->black|board->white;
-  if(~(vdmasu)==0)//空きマスがない場合
-  {
-    return GAME_OVER;
-  }
-  //else if(~(vdmasu&board->black )==0 | ~(vdmasu&board->white)==0)//片方の色で埋まっている
-  else if((vdmasu&~(board->black) )==0 | (vdmasu&~(board->white))==0)//片方の色で埋まっている
-  {
-    return GAME_OVER;
-  }
-  //else if(Othero::bitCount(canReverse(board))==0)
-  else if(Othero::bitCount(canReverse(&temp))==0)
+  //if(Othero::bitCount(canReverse(board))==0)
+  if(Othero::bitCount(canReverse(&temp))==0)
   { 
-    //board->teban*=(-1);
+    BitBoard temp = *board;
     //inverseTEBAN(board);
     inverseTEBAN(&temp);
     
     //if(Othero::bitCount(canReverse(board))==0)
     if(Othero::bitCount(canReverse(&temp))==0)
     {
-      //board->teban*=(-1);
-      //inverseTEBAN(board);
-      inverseTEBAN(&temp);
       return GAME_OVER;
     }
-    //board->teban*=(-1);
-    //inverseTEBAN(board);
-    inverseTEBAN(&temp);
     return PASS;
   }
   return 0;

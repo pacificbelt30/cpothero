@@ -15,7 +15,7 @@ typedef struct _BInfo {
   int eval; // 評価値
   int yomikazu; // 読んだ手の数
   uint64_t pos; // 指し手
-}BInfo;
+} BInfo;
 
 //一手読み
 //te 先手，後手
@@ -25,7 +25,7 @@ class Static : public Engine{
     ~Static();
     void one(int te);
     uint64_t bestPos(BitBoard board);
-    BInfo solver_nega(BitBoard board);
+    BInfo solver_nega(BitBoard board,bool flag);
   private:
   protected:
     //valiable

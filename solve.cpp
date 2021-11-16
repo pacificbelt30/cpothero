@@ -14,7 +14,7 @@ using namespace std;
 
 Solve::Solve()
 {
-    Othero othero;
+  Othero othero;
 }
 
 int Solve::solver(BitBoard board){

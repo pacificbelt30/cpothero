@@ -62,10 +62,10 @@
 #define INFINITY 1.0e9
 
 class Solve{
-    public:
-Solve();
-static int solver(BitBoard board);
-static int solverMM(BitBoard board);
-//void inverseTEBAN(BitBoard *board);
+  public:
+    Solve();
+    static int solver(BitBoard board);
+    static int solverMM(BitBoard board);
+    //void inverseTEBAN(BitBoard *board);
 };
 #endif

@@ -100,18 +100,30 @@ int main(int argc,char *argv[]){
       cout << "solver 結果" << temp << endl;
       cout << "solverMM 結果" << Solve::solverMM(board) << endl;
       /*??????*/
-      cout << "solverEngine 結果" << solverEngine.solver_nega(board).eval << endl;
-      cout << "solverEngine 結果" << solverEngine.solver_nega(board).eval << endl;
-      cout << "solverEngine yomikazu 結果" << solverEngine.solver_nega(board).yomikazu << endl;
-      cout << "solverEngine yomikazu 結果" << solverEngine.solver_nega(board).yomikazu << endl;
-      BInfo binfo = solverEngine.solver_nega(board);
-      int eval = solverEngine.solver_nega(board).eval;
+      cout << "solverEngine 結果" << solverEngine.solver_nega(board,true).eval << endl;
+      cout << "solverEngine 結果" << solverEngine.solver_nega(board,true).eval << endl;
+      cout << "solverEngine yomikazu 結果" << solverEngine.solver_nega(board,true).yomikazu << endl;
+      cout << "solverEngine yomikazu 結果" << solverEngine.solver_nega(board,true).yomikazu << endl;
+      BInfo binfo = solverEngine.solver_nega(board,true);
+      int eval = solverEngine.solver_nega(board,true).eval;
       //binfo.eval = solverEngine.solver_nega(board).eval;
       cout << "solverEngine 結果" << binfo.eval << endl;
       cout << "solverEngine yomikazu 結果" << binfo.yomikazu << endl;
-      cout << "solverEngine 結果" << binfo.pos  << endl;
+      cout << "solverEngine pos 結果" << binfo.pos  << endl;
+      binfo = solverEngine.solver_nega(board,true);
+      cout << "solverEngine 結果" << binfo.eval << endl;
+      cout << "solverEngine yomikazu 結果" << binfo.yomikazu << endl;
+      cout << "solverEngine pos 結果" << binfo.pos  << endl;
+      binfo = solverEngine.solver_nega(board,true);
+      cout << "solverEngine 結果" << binfo.eval << endl;
+      cout << "solverEngine yomikazu 結果" << binfo.yomikazu << endl;
+      cout << "solverEngine pos 結果" << binfo.pos  << endl;
+      BInfo binfo2 = solverEngine.solver_nega(board,true);
+      cout << "solverEngine 結果" << binfo2.eval << endl;
+      cout << "solverEngine yomikazu 結果" << binfo2.yomikazu << endl;
+      cout << "solverEngine pos 結果" << binfo2.pos  << endl;
       cout << "solverEngine 結果" << eval  << endl;
-      cout << "solverEngine 結果" << solverEngine.solver_nega(board).eval << endl;
+      cout << "solverEngine 結果" << solverEngine.solver_nega(board,true).eval << endl;
       cout << board.black << " " << board.white << " " << board.teban << endl;
       //cout << "空きます" << (int)(BLACK&WHITE) << endl;
     }

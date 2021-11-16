@@ -208,7 +208,7 @@ uint64_t Static::bestPos(BitBoard board){
   //tmp2 = this->bestPos(tmp);
   BInfo best;//
   if(Othero::bitCount(~(nowBoard.black | nowBoard.white)) <= SOLVERDEPTH) {
-    best=this->solver_nega(nowBoard);
+    best=this->solver_nega(nowBoard,true);
     cerr <<"sovler: "<< best.eval<<" value:" << best.pos <<" yomikazu:"<<best.yomikazu<<endl;
   }
   else {
@@ -446,7 +446,7 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
 
 
 // 最終完全読み
-BInfo Static::solver_nega(BitBoard board){
+BInfo Static::solver_nega(BitBoard board,bool flag){
   int i,j;
   //int tmpArray[64];
   int val=0;
@@ -487,7 +487,7 @@ BInfo Static::solver_nega(BitBoard board){
     if(fat==board.teban) std::cout << "error" << std::endl;
     //put(1<<i,&temp);
     //BInfo binfo = this->solver_nega(temp);
-    BInfo binfo = this->solver_nega(board);
+    BInfo binfo = this->solver_nega(board,false);
     //binfo.eval = (-1)*binfo.eval;
     //if(best.eval<binfo.eval) best = binfo;
     //best = binfo;
@@ -513,7 +513,7 @@ BInfo Static::solver_nega(BitBoard board){
       //temp.teban = board.teban;
 
       //Othero::inverseTEBAN(&temp);
-      BInfo binfo = this->solver_nega(Othero::vput(pos, &board));
+      BInfo binfo = this->solver_nega(Othero::vput(pos, &board),false);
       binfo.eval = (-1)*binfo.eval;
       binfo.pos = (uint64_t)pos;
       best.yomikazu += binfo.yomikazu;
@@ -522,7 +522,7 @@ BInfo Static::solver_nega(BitBoard board){
     //val = - Negamax(ai, 次の turn, depth-1);
     //if(best < val)   best= val;
   }
-
+  if(flag) cout << "solver内 eval:" << best.eval << endl;
   return best;
 }
 

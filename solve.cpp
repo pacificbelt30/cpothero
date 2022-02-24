@@ -91,7 +91,7 @@ int Solve::solverMM(BitBoard board){
   int val;
   int legalnum;
   int count=0;
-  int best = (board.teban)*INFINITY;
+  int best = (double)(board.teban)*INFINITY;
   BitBoard temp;
   uint64_t legal = Othero::canReverse(&board);
   legalnum=Othero::bitCount(legal);

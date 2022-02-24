@@ -446,19 +446,22 @@ BInfo Static::negaMax(BitBoard board,unsigned int depth){
 
 
 // 最終完全読み
-BInfo Static::solver_nega(BitBoard board,bool flag){
+BInfo Static::solver_nega(BitBoard bboard,bool flag){
   int i,j;
   //int tmpArray[64];
   int val=0;
   int legalnum;
   int count=0;
   BInfo best;
+  BitBoard board = bboard;
   best.pos = 0ULL;
-  best.eval = (-1)*INFINITY;
+  best.eval = (int)((-1)*INFINITY);
   best.yomikazu = 0;
-  BitBoard temp;
+  //BitBoard temp;
   uint64_t legal = Othero::canReverse(&board);
   legalnum=Othero::bitCount(legal);
+  //cout << board.teban << " ";
+  //if(flag)cout << legal <<"legalnum:" << legalnum << endl;
 
   /* 葉の場合、評価値を返す */
   if(Othero::checkGameover(&board)==GAME_OVER)
@@ -491,9 +494,10 @@ BInfo Static::solver_nega(BitBoard board,bool flag){
     //binfo.eval = (-1)*binfo.eval;
     //if(best.eval<binfo.eval) best = binfo;
     //best = binfo;
-    best.eval = (-1)*binfo.eval;
+    best.eval = (int)((-1)*binfo.eval);
     best.pos = 0ULL;
-    best.yomikazu = legalnum;
+    best.yomikazu = binfo.yomikazu;
+    //cout << "pass" << endl;
     return best;
   }
   
@@ -509,20 +513,27 @@ BInfo Static::solver_nega(BitBoard board,bool flag){
       //BitBoard temp = board;
       // 一手後の盤面を生成し，その盤面で再帰
       //BitBoard temp = Othero::vput(pos,&board);
-      temp = Othero::vput(pos,&board); /* これを使うとバグる? */ 
+      //temp = Othero::vput(pos,&board); /* これを使うとバグる? */ 
       //temp.teban = board.teban;
 
       //Othero::inverseTEBAN(&temp);
-      BInfo binfo = this->solver_nega(Othero::vput(pos, &board),false);
-      binfo.eval = (-1)*binfo.eval;
+      BitBoard temp = Othero::vput(pos, &board);
+      //cout << temp.teban << ":"<<pos <<  " ";
+      //BInfo binfo = this->solver_nega(Othero::vput(pos, &board),false);
+      BInfo binfo = this->solver_nega(temp,false);
+      binfo.eval = (int)((-1)*binfo.eval);
       binfo.pos = (uint64_t)pos;
       best.yomikazu += binfo.yomikazu;
-      if(best.eval<binfo.eval) best = binfo;
+      if(best.eval<binfo.eval){
+        best.eval = binfo.eval;
+        best.pos = binfo.pos;
+      }
     }
     //val = - Negamax(ai, 次の turn, depth-1);
     //if(best < val)   best= val;
   }
-  if(flag) cout << "solver内 eval:" << best.eval << endl;
+  //best.eval = 1;
+  //if(flag) cout << "solver内 eval:" << best.eval << " :" << best.yomikazu << " :" << legalnum << endl;
   return best;
 }
 

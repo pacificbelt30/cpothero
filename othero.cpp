@@ -259,6 +259,7 @@ BitBoard Othero::vput(uint64_t pos,BitBoard *board)
   uint64_t revd_board;//裏返った盤面
   uint64_t *enemy;
   uint64_t *me;
+  vi.teban = board->teban;
   vi.white = board->white;
   vi.black = board->black;
 

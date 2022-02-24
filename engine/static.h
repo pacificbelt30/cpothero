@@ -3,12 +3,13 @@
 #include"../othero.h"
 #include"../learn.h"
 #include"../engine.h"
+#include"../solve.h"
 
 #ifndef _STATIC_
 #define _STATIC_
 #define ENGINEDEPTH 4
 #define SOLVERDEPTH 9
-#define INFINITY 1.0e9
+//#define INFINITY 1.0e9
 
 // 指し手に対する評価値の構造体
 typedef struct _BInfo {

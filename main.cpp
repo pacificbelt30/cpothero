@@ -93,6 +93,7 @@ int main(int argc,char *argv[]){
       board.black = DEBUG_SOLVE_BLACK;
       board.white = DEBUG_SOLVE_WHITE;
       board.teban = DEBUG_SOLVE_TEBAN;
+      Othero::show(&board);
       cout << board.black << " " << board.white << " " << board.teban << endl;
       cout << "solver 結果" << Solve::solver(board) << endl;
       cout << "solver 結果" << Solve::solver(board) << endl;
@@ -104,7 +105,16 @@ int main(int argc,char *argv[]){
       cout << "solverEngine 結果" << solverEngine.solver_nega(board,true).eval << endl;
       cout << "solverEngine yomikazu 結果" << solverEngine.solver_nega(board,true).yomikazu << endl;
       cout << "solverEngine yomikazu 結果" << solverEngine.solver_nega(board,true).yomikazu << endl;
+      cout << "=======================================" << endl;
       BInfo binfo = solverEngine.solver_nega(board,true);
+      BInfo binfo3 = solverEngine.solver_nega(board,true);
+      binfo3 = solverEngine.solver_nega(board,true);
+      binfo3 = solverEngine.solver_nega(board,true);
+      binfo3 = solverEngine.solver_nega(board,true);
+      binfo3 = solverEngine.solver_nega(board,true);
+      binfo3 = solverEngine.solver_nega(board,true);
+      cout <<"error"<< binfo3.eval << endl;
+      binfo3 = solverEngine.solver_nega(board,true);
       int eval = solverEngine.solver_nega(board,true).eval;
       //binfo.eval = solverEngine.solver_nega(board).eval;
       cout << "solverEngine 結果" << binfo.eval << endl;

@@ -107,14 +107,6 @@ int main(int argc,char *argv[]){
       cout << "solverEngine yomikazu 結果" << solverEngine.solver_nega(board,true).yomikazu << endl;
       cout << "=======================================" << endl;
       BInfo binfo = solverEngine.solver_nega(board,true);
-      BInfo binfo3 = solverEngine.solver_nega(board,true);
-      binfo3 = solverEngine.solver_nega(board,true);
-      binfo3 = solverEngine.solver_nega(board,true);
-      binfo3 = solverEngine.solver_nega(board,true);
-      binfo3 = solverEngine.solver_nega(board,true);
-      binfo3 = solverEngine.solver_nega(board,true);
-      cout <<"error"<< binfo3.eval << endl;
-      binfo3 = solverEngine.solver_nega(board,true);
       int eval = solverEngine.solver_nega(board,true).eval;
       //binfo.eval = solverEngine.solver_nega(board).eval;
       cout << "solverEngine 結果" << binfo.eval << endl;

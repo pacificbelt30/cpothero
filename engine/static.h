@@ -16,6 +16,7 @@ typedef struct _BInfo {
   int eval; // 評価値
   int yomikazu; // 読んだ手の数
   uint64_t pos; // 指し手
+  BitBoard last; // 最終盤面
 } BInfo;
 
 //一手読み

@@ -457,6 +457,7 @@ BInfo Static::solver_nega(BitBoard bboard,bool flag){
   best.pos = 0ULL;
   best.eval = (int)((-1)*INFINITY);
   best.yomikazu = 0;
+  best.last = board;
   //BitBoard temp;
   uint64_t legal = Othero::canReverse(&board);
   legalnum=Othero::bitCount(legal);
@@ -476,6 +477,7 @@ BInfo Static::solver_nega(BitBoard bboard,bool flag){
     }
     best.pos = 0ULL;
     best.yomikazu = 1;
+    best.last = board;
     //cout << "static solver gameover" << endl;
     return best;
   } //return eval();
@@ -495,8 +497,10 @@ BInfo Static::solver_nega(BitBoard bboard,bool flag){
     //if(best.eval<binfo.eval) best = binfo;
     //best = binfo;
     best.eval = (int)((-1)*binfo.eval);
+    //best.pos = (uint64_t)0;
     best.pos = 0ULL;
     best.yomikazu = binfo.yomikazu;
+    best.last = binfo.last;
     //cout << "pass" << endl;
     return best;
   }
@@ -527,6 +531,7 @@ BInfo Static::solver_nega(BitBoard bboard,bool flag){
       if(best.eval<binfo.eval){
         best.eval = binfo.eval;
         best.pos = binfo.pos;
+        best.last = binfo.last;
       }
     }
     //val = - Negamax(ai, 次の turn, depth-1);

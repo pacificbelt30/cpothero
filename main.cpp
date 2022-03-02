@@ -93,18 +93,25 @@ int main(int argc,char *argv[]){
       board.black = DEBUG_SOLVE_BLACK;
       board.white = DEBUG_SOLVE_WHITE;
       board.teban = DEBUG_SOLVE_TEBAN;
+      cout << "board check(True:1, False:0):" << Othero::checkLeagal(board) << endl;
       Othero::show(&board);
       cout << board.black << " " << board.white << " " << board.teban << endl;
       cout << "solver 結果" << Solve::solver(board) << endl;
-      cout << "solver 結果" << Solve::solver(board) << endl;
+      //cout << "solver 結果" << Solve::solver(board) << endl;
       int temp = Solve::solver(board);
       cout << "solver 結果" << temp << endl;
+      cout << "solverMM 結果" << Solve::solverMM(board) << endl;
       cout << "solverMM 結果" << Solve::solverMM(board) << endl;
       /*??????*/
       cout << "solverEngine 結果" << solverEngine.solver_nega(board,true).eval << endl;
       cout << "solverEngine 結果" << solverEngine.solver_nega(board,true).eval << endl;
       cout << "solverEngine yomikazu 結果" << solverEngine.solver_nega(board,true).yomikazu << endl;
       cout << "solverEngine yomikazu 結果" << solverEngine.solver_nega(board,true).yomikazu << endl;
+      cout << "solverEngine pos 結果" << solverEngine.solver_nega(board,true).pos << endl;
+      cout << "solverEngine pos 結果" << solverEngine.solver_nega(board,true).pos << endl;
+      BitBoard last = solverEngine.solver_nega(board,true).last;
+      Othero::show(&last);
+      /*
       cout << "=======================================" << endl;
       BInfo binfo = solverEngine.solver_nega(board,true);
       int eval = solverEngine.solver_nega(board,true).eval;
@@ -127,6 +134,7 @@ int main(int argc,char *argv[]){
       cout << "solverEngine 結果" << eval  << endl;
       cout << "solverEngine 結果" << solverEngine.solver_nega(board,true).eval << endl;
       cout << board.black << " " << board.white << " " << board.teban << endl;
+      */
       //cout << "空きます" << (int)(BLACK&WHITE) << endl;
     }
   }

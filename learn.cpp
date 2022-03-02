@@ -125,7 +125,7 @@ void Learn::generateKif(int n)
           //kif[count] = getRMB(pos);//kif保存
           kif[count] = getPosnum(pos);//kif保存
         }
-        Othero::show(&board);
+        //Othero::show(&board);
         board.teban=GOTE;
       }
       else
@@ -149,13 +149,14 @@ void Learn::generateKif(int n)
           //kif[count] = getRMB(pos);//kif保存
           kif[count] = getPosnum(pos);//kif保存
         }
-        Othero::show(&board);
+        //Othero::show(&board);
         board.teban=SENTE;
       }
     
       count++;
       cout << count << "手" << endl;
     }
+    Othero::show(&board);
     //resu=(board.teban)*Solve::solverMM(board);
     resu=Solve::solverMM(board);
     //resu = bitCount( board.black) - bitCount(board.white);
